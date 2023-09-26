@@ -117,9 +117,9 @@ class ViewController: UIViewController {
         
         let activity: UIActivityIndicatorView
         if #available(iOS 13.0, *) {
-            activity = UIActivityIndicatorView(activityIndicatorStyle: .medium)
+            activity = UIActivityIndicatorView(style: .medium)
         } else {
-            activity = UIActivityIndicatorView(activityIndicatorStyle: .gray)
+            activity = UIActivityIndicatorView(style: .gray)
         }
         fastRoomView.addSubview(activity)
         activity.snp.makeConstraints { $0.center.equalToSuperview() }
