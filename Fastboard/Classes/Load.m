@@ -6,7 +6,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#import <Fastboard/Fastboard-Swift.h>
+#import <objc/runtime.h>
 
 void methodExchange(Class cls, SEL oSelect, SEL swizzledSelector) {
     Method o = class_getInstanceMethod(cls, oSelect);
@@ -27,11 +27,6 @@ void methodExchange(Class cls, SEL oSelect, SEL swizzledSelector) {
     methodExchange([UIView class],
                    @selector(traitCollectionDidChange:),
                    @selector(_fastboard_exchangedTraitCollectionDidChange:));
-    [FastLoad initTheme];
-}
-
-+ (void)initTheme {
-    [FastRoomThemeManager shared];
 }
 
 @end

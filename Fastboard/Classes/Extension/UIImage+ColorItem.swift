@@ -5,7 +5,7 @@
 //  Created by xuyunshi on 2021/12/30.
 //
 
-import Foundation
+import UIKit
 
 extension UIImage {
     static func colorItemImage(withColor color: UIColor,

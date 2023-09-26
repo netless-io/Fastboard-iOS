@@ -5,7 +5,7 @@
 //  Created by xuyunshi on 2022/1/6.
 //
 
-import Foundation
+import UIKit
 
 public class AppearanceManager: NSObject {
     @objc

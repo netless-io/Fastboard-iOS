@@ -19,6 +19,7 @@ public class Fastboard: NSObject {
     /// Create a Fastboard with FastConfiguration
     /// - Parameter config: Configuration for fastboard
     public class func createFastRoom(withFastRoomConfig config: FastRoomConfiguration) -> FastRoom {
+        let _ = FastRoomThemeManager.shared
         return FastRoom(configuration: config)
     }
 }

@@ -5,7 +5,7 @@
 //  Created by xuyunshi on 2022/1/19.
 //
 
-import Foundation
+import UIKit
 
 private var _fast_w: Void?
 private var _fast_h: Void?

@@ -5,7 +5,7 @@
 //  Created by xuyunshi on 2021/12/30.
 //
 
-import Foundation
+import UIKit
 
 class SubPanelContainer: UIView {}
 

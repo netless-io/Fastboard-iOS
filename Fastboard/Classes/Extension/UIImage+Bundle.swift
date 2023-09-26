@@ -5,11 +5,15 @@
 //  Created by xuyunshi on 2021/12/30.
 //
 
-import Foundation
+import UIKit
 
 let defaultBundle: Bundle = {
-    let path = Bundle(for: Fastboard.self).path(forResource: "Icons", ofType: "bundle")
-    return Bundle(path: path!)!
+    if let path = Bundle(for: Fastboard.self).path(forResource: "Fastboard_Fastboard", ofType: "bundle") {
+        return Bundle(path: path)!
+    } else if let path = Bundle(for: Fastboard.self).path(forResource: "Icons", ofType: "bundle") {
+        return Bundle(path: path)!
+    }
+    return Bundle.main
 }()
 
 var iconsBundle: Bundle = defaultBundle

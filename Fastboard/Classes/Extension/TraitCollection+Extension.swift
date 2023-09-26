@@ -5,7 +5,7 @@
 //  Created by xuyunshi on 2022/1/4.
 //
 
-import Foundation
+import UIKit
 
 extension UITraitCollection {
     var hasCompact: Bool {
