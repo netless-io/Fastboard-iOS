@@ -17,6 +17,8 @@ class HTViewController: UIViewController {
     var editingTextId: String?
     var lastEdtingTextPoint: CGPoint?
     var lastInsertTextCameraCenter: CGPoint?
+    let otherView = HTOtherView(frame: .zero)
+    var boardWapper: BoardWapper!
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -27,6 +29,7 @@ class HTViewController: UIViewController {
 
         // DEBUG
         helpFunction()
+        setupOtherView()
     }
 
     @objc func onSwipeGesture(_ gesture: UISwipeGestureRecognizer) {
@@ -62,6 +65,25 @@ class HTViewController: UIViewController {
             make.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(88)
             make.centerX.equalToSuperview()
         }
+    }
+    
+    func setupOtherView() {
+        view.addSubview(otherView)
+        otherView.snp.makeConstraints { make in
+            make.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom)
+            make.left.equalTo(view.safeAreaLayoutGuide.snp.left)
+            make.right.equalTo(view.safeAreaLayoutGuide.snp.right)
+            make.height.equalTo(45*5)
+        }
+        
+        let list = [
+            HTOtherView.Item(name: "whiteboard_1", pageCount: 3, currentPage: 0, isShare: false),
+            HTOtherView.Item(name: "whiteboard_2", pageCount: 3, currentPage: 0, isShare: false),
+            HTOtherView.Item(name: "whiteboard_3", pageCount: 3, currentPage: 0, isShare: false),
+            HTOtherView.Item(name: "jpg", pageCount: 3, currentPage: 0, isShare: false),
+            HTOtherView.Item(name: "ppt", pageCount: 3, currentPage: 0, isShare: false)
+        ]
+        otherView.setDatas(list: list, delegate: self)
     }
 
     @objc func closeAll() {
@@ -249,6 +271,7 @@ class HTViewController: UIViewController {
             self?.fastRoom.room?.setMemberState(m)
             self?.fastRoom.view.overlay?.update(strokeColor: .red)
         }
+        boardWapper = BoardWapper(fastRoom: fastRoom)
     }
 
     func update(editable: Bool) {
@@ -315,5 +338,70 @@ extension HTViewController: UITextFieldDelegate {
     func textFieldShouldReturn(_: UITextField) -> Bool {
         onClickTextFinish()
         return true
+    }
+}
+
+extension HTViewController: HTTableViewCellDelegate {
+    func cellDidTap(index: IndexPath, action: HTAction, item: HTTableViewCell.Item) {
+        
+        if action == .unshare { /** 点击白板停止分享 **/
+            boardWapper.destoryWhiteBoard(path: item.name)
+            return
+        }
+        
+        if action == .next {
+            boardWapper.switchWhiteBoard(path: item.name, page: item.currentPage)
+            return
+        }
+        
+        if action == .last {
+            boardWapper.switchWhiteBoard(path: item.name, page: item.currentPage)
+            return
+        }
+        
+        if index.row < 3 {
+            if action == .share { /** 点击白板分享 **/
+                let scene1 = WhiteScene(name: item.name + "|0", ppt: nil)
+                let scene2 = WhiteScene(name: item.name + "|1", ppt: nil)
+                let scene3 = WhiteScene(name: item.name + "|2", ppt: nil)
+                let scenes = [scene1, scene2,
+                              scene3]
+                boardWapper.addWhiteBoard(path: item.name,
+                                          scenes: scenes)
+                boardWapper.switchWhiteBoard(path: item.name, page: 0)
+            }
+            
+        }
+        
+        if index.row == 3 {
+            if action == .share {
+                let jpgUrl = "https://placekitten.com/g/200/300"
+                let size = CGSize(width: 200, height: 300)
+                let scene1 = WhiteScene(name: item.name + "|0", ppt: WhitePptPage(src: jpgUrl, size: size))
+                let scene2 = WhiteScene(name: item.name + "|1", ppt: WhitePptPage(src: jpgUrl, size: size))
+                let scene3 = WhiteScene(name: item.name + "|2", ppt: WhitePptPage(src: jpgUrl, size: size))
+                let scenes = [scene1, scene2,
+                              scene3]
+                boardWapper.addWhiteBoard(path: item.name,
+                                          scenes: scenes)
+                boardWapper.switchWhiteBoard(path: item.name, page: 0)
+            }
+            
+        }
+        
+        if index.row == 4 {
+            let pngUrl0 = "https://ht-global.oss-cn-hongkong.aliyuncs.com/whiteboard/live/staticConvert/b53340649aa449e1b56c14ebc3f7d53d/15.png"
+            let pngUrl1 = "https://ht-global.oss-cn-hongkong.aliyuncs.com/whiteboard/live/staticConvert/b53340649aa449e1b56c14ebc3f7d53d/13.png"
+            let pngUrl2 = "https://ht-global.oss-cn-hongkong.aliyuncs.com/whiteboard/live/staticConvert/b53340649aa449e1b56c14ebc3f7d53d/19.png"
+            let size = CGSize(width: 1440, height: 810)
+            let scene1 = WhiteScene(name: item.name + "|0", ppt: WhitePptPage(src: pngUrl0, size: size))
+            let scene2 = WhiteScene(name: item.name + "|1", ppt: WhitePptPage(src: pngUrl1, size: size))
+            let scene3 = WhiteScene(name: item.name + "|2", ppt: WhitePptPage(src: pngUrl2, size: size))
+            let scenes = [scene1, scene2,
+                          scene3]
+            boardWapper.addWhiteBoard(path: item.name,
+                                      scenes: scenes)
+            boardWapper.switchWhiteBoard(path: item.name, page: 0)
+        }
     }
 }
