@@ -10,6 +10,15 @@ import Fastboard
 import UIKit
 import Whiteboard
 
+@objc class HTState:  WhiteGlobalState {
+    override init() {
+        currentSceneIndex = 0
+        super.init()
+    }
+    
+    @objc var currentSceneIndex: Int
+}
+
 class HTViewController: UIViewController {
     override var supportedInterfaceOrientations: UIInterfaceOrientationMask { .portrait }
 
@@ -30,6 +39,8 @@ class HTViewController: UIViewController {
         // DEBUG
         helpFunction()
         setupOtherView()
+        
+        WhiteDisplayerState.setCustomGlobalStateClass(HTState.self)
     }
 
     @objc func onSwipeGesture(_ gesture: UISwipeGestureRecognizer) {
@@ -65,6 +76,21 @@ class HTViewController: UIViewController {
             make.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(88)
             make.centerX.equalToSuperview()
         }
+        
+        let globalState = UIButton(type: .system)
+        view.addSubview(globalState)
+        globalState.setTitle("globalState", for: .normal)
+        globalState.addTarget(self, action: #selector(updateGlobalState), for: .touchUpInside)
+        globalState.snp.makeConstraints { make in
+            make.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(144)
+            make.centerX.equalToSuperview()
+        }
+    }
+    
+    @objc func updateGlobalState() {
+        let state = HTState()
+        state.currentSceneIndex = .random(in: 0...20)
+        fastRoom.room?.setGlobalState(state)
     }
     
     func setupOtherView() {
@@ -216,6 +242,7 @@ class HTViewController: UIViewController {
         config.whiteRoomConfig.windowParams?.fullscreen = true
         let fastRoom = Fastboard.createFastRoom(withFastRoomConfig: config)
         fastRoom.delegate = self
+        fastRoom.roomDelegate = self
         let fastRoomView = fastRoom.view
         fastRoomView.backgroundColor = .black
         view.autoresizesSubviews = true
@@ -403,5 +430,10 @@ extension HTViewController: HTTableViewCellDelegate {
                                       scenes: scenes)
             boardWapper.switchWhiteBoard(path: item.name, page: 0)
         }
+    }
+}
+extension HTViewController: WhiteRoomCallbackDelegate {
+    func fireRoomStateChanged(_ modifyState: WhiteRoomState!) {
+        print(#function, modifyState)
     }
 }
