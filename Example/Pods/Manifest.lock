@@ -1,61 +1,57 @@
 PODS:
-  - Fastboard (1.3.0):
-    - Fastboard/core (= 1.3.0)
-  - Fastboard/core (1.3.0):
-    - Whiteboard (~> 2.16.63)
+  - Fastboard/core-YYKit (1.3.0):
+    - Whiteboard/Whiteboard-YYKit (~> 2.16.63)
   - Masonry (1.1.0)
   - NTLBridge (3.1.5)
   - SnapKit (5.6.0)
-  - Whiteboard (2.16.63):
-    - Whiteboard/Whiteboard-YYModel (= 2.16.63)
-  - Whiteboard/Base (2.16.63):
+  - Whiteboard/Base-YYKit (2.16.71):
     - NTLBridge (~> 3.1.4)
-    - Whiteboard/Object
-  - Whiteboard/Converter (2.16.63):
-    - Whiteboard/Object
-  - Whiteboard/Model (2.16.63):
-    - YYModel
-  - Whiteboard/NativeReplayer (2.16.63):
-    - Whiteboard/Replayer
-  - Whiteboard/Object (2.16.63):
-    - Whiteboard/Model
-  - Whiteboard/Replayer (2.16.63):
-    - Whiteboard/Base
-  - Whiteboard/Resource (2.16.63)
-  - Whiteboard/Room (2.16.63):
-    - Whiteboard/Base
-  - Whiteboard/Whiteboard-YYModel (2.16.63):
-    - Whiteboard/Converter
-    - Whiteboard/NativeReplayer
+    - Whiteboard/Object-YYKit
+  - Whiteboard/Converter-YYKit (2.16.71):
+    - Whiteboard/Object-YYKit
+  - Whiteboard/Model-YYKit (2.16.71):
+    - YYKit
+  - Whiteboard/NativeReplayer-YYKit (2.16.71):
+    - Whiteboard/Replayer-YYKit
+  - Whiteboard/Object-YYKit (2.16.71):
+    - Whiteboard/Model-YYKit
+  - Whiteboard/Replayer-YYKit (2.16.71):
+    - Whiteboard/Base-YYKit
+  - Whiteboard/Resource (2.16.71)
+  - Whiteboard/Room-YYKit (2.16.71):
+    - Whiteboard/Base-YYKit
+  - Whiteboard/Whiteboard-YYKit (2.16.71):
+    - Whiteboard/Converter-YYKit
+    - Whiteboard/NativeReplayer-YYKit
     - Whiteboard/Resource
-    - Whiteboard/Room
-  - YYModel (1.0.4)
+    - Whiteboard/Room-YYKit
+  - YYKit (1.0.9):
+    - YYKit/no-arc (= 1.0.9)
+  - YYKit/no-arc (1.0.9)
 
 DEPENDENCIES:
-  - Fastboard (from `../`)
+  - Fastboard/core-YYKit (= 1.3.0)
   - Masonry
   - SnapKit
+  - Whiteboard/Whiteboard-YYKit (= 2.16.71)
 
 SPEC REPOS:
   trunk:
+    - Fastboard
     - Masonry
     - NTLBridge
     - SnapKit
     - Whiteboard
-    - YYModel
-
-EXTERNAL SOURCES:
-  Fastboard:
-    :path: "../"
+    - YYKit
 
 SPEC CHECKSUMS:
   Fastboard: aea4a8004fb89035b59ae40c4470e4d4aa6ed7e0
   Masonry: 678fab65091a9290e40e2832a55e7ab731aad201
   NTLBridge: e94dc18242476b0238c10213a5438d9b9a59fcce
   SnapKit: e01d52ebb8ddbc333eefe2132acf85c8227d9c25
-  Whiteboard: 08958d1d43bcc07a5f4454018857fbc06117c74a
-  YYModel: 2a7fdd96aaa4b86a824e26d0c517de8928c04b30
+  Whiteboard: 10ba5115ad5cd9044d9d4e309826025882814915
+  YYKit: 7cda43304a8dc3696c449041e2cb3107b4e236e7
 
-PODFILE CHECKSUM: d213b346212ec42ffd173de873e980509bf3df46
+PODFILE CHECKSUM: 9c7ad7ae35ea983d819eb8a4aea4350625e1d8ca
 
-COCOAPODS: 1.12.1
+COCOAPODS: 1.13.0

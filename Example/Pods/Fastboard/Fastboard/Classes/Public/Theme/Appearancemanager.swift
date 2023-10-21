@@ -12,9 +12,24 @@ public class AppearanceManager: NSObject {
     public static let shared = AppearanceManager()
     private override init() {}
     
+    func keyWindow() -> UIWindow? {
+        if #available(iOS 13, *) {
+            for scene in UIApplication.shared.connectedScenes {
+                if let scene = scene as? UIWindowScene {
+                    if let keyWindow = scene.windows.first(where: { $0.isKeyWindow }) {
+                        return keyWindow
+                    }
+                }
+            }
+        } else {
+            return UIApplication.shared.keyWindow
+        }
+        return nil
+    }
+    
     @objc
     public func commitUpdate() {
-        let window = UIApplication.shared.keyWindow
+        let window = keyWindow()
         window?.subviews.forEach {
             $0.removeFromSuperview()
             window?.addSubview($0)

@@ -57,7 +57,7 @@ public class FastRoomDefaultOperationIdentifier: NSObject {
     
     @objc
     public var identifier: String {
-        if let shape = shape {
+        if appliance == .ApplianceShape, let shape = shape {
             return shape.rawValue
         } else if let appliance = appliance {
             return appliance.rawValue

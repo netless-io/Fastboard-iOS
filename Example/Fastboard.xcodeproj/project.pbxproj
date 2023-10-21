@@ -12,6 +12,18 @@
 		607FACDB1AFB9204008FA782 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 607FACD91AFB9204008FA782 /* Main.storyboard */; };
 		607FACDD1AFB9204008FA782 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 607FACDC1AFB9204008FA782 /* Images.xcassets */; };
 		607FACE01AFB9204008FA782 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 607FACDE1AFB9204008FA782 /* LaunchScreen.xib */; };
+		6169C06B2AE36F7B0082C515 /* HTTextItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6169C05F2AE36F7B0082C515 /* HTTextItem.swift */; };
+		6169C06C2AE36F7B0082C515 /* HTExecutionItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6169C0602AE36F7B0082C515 /* HTExecutionItem.swift */; };
+		6169C06D2AE36F7B0082C515 /* HTViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6169C0612AE36F7B0082C515 /* HTViewController.swift */; };
+		6169C06E2AE36F7B0082C515 /* HTStrokeItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6169C0622AE36F7B0082C515 /* HTStrokeItem.swift */; };
+		6169C06F2AE36F7B0082C515 /* HTApplianceItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6169C0632AE36F7B0082C515 /* HTApplianceItem.swift */; };
+		6169C0702AE36F7B0082C515 /* HTExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6169C0642AE36F7B0082C515 /* HTExtension.swift */; };
+		6169C0712AE36F7B0082C515 /* HTOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6169C0652AE36F7B0082C515 /* HTOverlay.swift */; };
+		6169C0722AE36F7B0082C515 /* HTColorItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6169C0662AE36F7B0082C515 /* HTColorItem.swift */; };
+		6169C0732AE36F7B0082C515 /* HTLocalize.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6169C0672AE36F7B0082C515 /* HTLocalize.swift */; };
+		6169C0742AE36F7B0082C515 /* HTConst.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6169C0682AE36F7B0082C515 /* HTConst.swift */; };
+		6169C0752AE36F7B0082C515 /* HTPencilItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6169C0692AE36F7B0082C515 /* HTPencilItem.swift */; };
+		6169C0762AE36F7B0082C515 /* HTSubPanelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6169C06A2AE36F7B0082C515 /* HTSubPanelView.swift */; };
 		8A0A85DB27EC46D4005CFC84 /* monaco.iife.js in Resources */ = {isa = PBXBuildFile; fileRef = 8A0A85DA27EC46D4005CFC84 /* monaco.iife.js */; };
 		8A0A85DC27EC46D4005CFC84 /* monaco.iife.js in Resources */ = {isa = PBXBuildFile; fileRef = 8A0A85DA27EC46D4005CFC84 /* monaco.iife.js */; };
 		8A0A85EB27EC7304005CFC84 /* plyr.iife.js in Resources */ = {isa = PBXBuildFile; fileRef = 8A0A85EA27EC7304005CFC84 /* plyr.iife.js */; };
@@ -64,6 +76,18 @@
 		607FACDA1AFB9204008FA782 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		607FACDC1AFB9204008FA782 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		607FACDF1AFB9204008FA782 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
+		6169C05F2AE36F7B0082C515 /* HTTextItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HTTextItem.swift; sourceTree = "<group>"; };
+		6169C0602AE36F7B0082C515 /* HTExecutionItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HTExecutionItem.swift; sourceTree = "<group>"; };
+		6169C0612AE36F7B0082C515 /* HTViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HTViewController.swift; sourceTree = "<group>"; };
+		6169C0622AE36F7B0082C515 /* HTStrokeItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HTStrokeItem.swift; sourceTree = "<group>"; };
+		6169C0632AE36F7B0082C515 /* HTApplianceItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HTApplianceItem.swift; sourceTree = "<group>"; };
+		6169C0642AE36F7B0082C515 /* HTExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HTExtension.swift; sourceTree = "<group>"; };
+		6169C0652AE36F7B0082C515 /* HTOverlay.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HTOverlay.swift; sourceTree = "<group>"; };
+		6169C0662AE36F7B0082C515 /* HTColorItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HTColorItem.swift; sourceTree = "<group>"; };
+		6169C0672AE36F7B0082C515 /* HTLocalize.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HTLocalize.swift; sourceTree = "<group>"; };
+		6169C0682AE36F7B0082C515 /* HTConst.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HTConst.swift; sourceTree = "<group>"; };
+		6169C0692AE36F7B0082C515 /* HTPencilItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HTPencilItem.swift; sourceTree = "<group>"; };
+		6169C06A2AE36F7B0082C515 /* HTSubPanelView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HTSubPanelView.swift; sourceTree = "<group>"; };
 		812F452516B81B7ADBC6F7AC /* Pods-Fastboard_Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Fastboard_Tests.release.xcconfig"; path = "Target Support Files/Pods-Fastboard_Tests/Pods-Fastboard_Tests.release.xcconfig"; sourceTree = "<group>"; };
 		829F94F2DB88098BADCF84A3 /* Pods-OCExample.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OCExample.debug.xcconfig"; path = "Target Support Files/Pods-OCExample/Pods-OCExample.debug.xcconfig"; sourceTree = "<group>"; };
 		8A0A85DA27EC46D4005CFC84 /* monaco.iife.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = monaco.iife.js; sourceTree = "<group>"; };
@@ -164,6 +188,7 @@
 		607FACD21AFB9204008FA782 /* Example for Fastboard */ = {
 			isa = PBXGroup;
 			children = (
+				6169C05E2AE36F6D0082C515 /* HT */,
 				8A32FA7627C885CB00FA9367 /* Resource */,
 				8AB02BB527C47F9000792EF6 /* Localizable.strings */,
 				8AB02BC027C4CF8500792EF6 /* MockStorage */,
@@ -206,6 +231,25 @@
 				96FF1AB9A8B5AED401A61FB7 /* LICENSE */,
 			);
 			name = "Podspec Metadata";
+			sourceTree = "<group>";
+		};
+		6169C05E2AE36F6D0082C515 /* HT */ = {
+			isa = PBXGroup;
+			children = (
+				6169C0632AE36F7B0082C515 /* HTApplianceItem.swift */,
+				6169C0662AE36F7B0082C515 /* HTColorItem.swift */,
+				6169C0682AE36F7B0082C515 /* HTConst.swift */,
+				6169C0602AE36F7B0082C515 /* HTExecutionItem.swift */,
+				6169C0642AE36F7B0082C515 /* HTExtension.swift */,
+				6169C0672AE36F7B0082C515 /* HTLocalize.swift */,
+				6169C0652AE36F7B0082C515 /* HTOverlay.swift */,
+				6169C0692AE36F7B0082C515 /* HTPencilItem.swift */,
+				6169C0622AE36F7B0082C515 /* HTStrokeItem.swift */,
+				6169C06A2AE36F7B0082C515 /* HTSubPanelView.swift */,
+				6169C05F2AE36F7B0082C515 /* HTTextItem.swift */,
+				6169C0612AE36F7B0082C515 /* HTViewController.swift */,
+			);
+			name = HT;
 			sourceTree = "<group>";
 		};
 		8A32FA7627C885CB00FA9367 /* Resource */ = {
@@ -402,7 +446,7 @@
 				"${BUILT_PRODUCTS_DIR}/Fastboard/Fastboard.framework",
 				"${BUILT_PRODUCTS_DIR}/NTLBridge/NTLBridge.framework",
 				"${BUILT_PRODUCTS_DIR}/Whiteboard/Whiteboard.framework",
-				"${BUILT_PRODUCTS_DIR}/YYModel/YYModel.framework",
+				"${BUILT_PRODUCTS_DIR}/YYKit/YYKit.framework",
 				"${BUILT_PRODUCTS_DIR}/SnapKit/SnapKit.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
@@ -410,7 +454,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Fastboard.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/NTLBridge.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Whiteboard.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/YYModel.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/YYKit.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SnapKit.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -473,7 +517,7 @@
 				"${BUILT_PRODUCTS_DIR}/Masonry/Masonry.framework",
 				"${BUILT_PRODUCTS_DIR}/NTLBridge/NTLBridge.framework",
 				"${BUILT_PRODUCTS_DIR}/Whiteboard/Whiteboard.framework",
-				"${BUILT_PRODUCTS_DIR}/YYModel/YYModel.framework",
+				"${BUILT_PRODUCTS_DIR}/YYKit/YYKit.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
@@ -481,7 +525,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Masonry.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/NTLBridge.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Whiteboard.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/YYModel.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/YYKit.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -496,15 +540,27 @@
 			buildActionMask = 2147483647;
 			files = (
 				8AFA91E4278D85CB00E0CA61 /* CustomFastboardView.swift in Sources */,
+				6169C0762AE36F7B0082C515 /* HTSubPanelView.swift in Sources */,
+				6169C0752AE36F7B0082C515 /* HTPencilItem.swift in Sources */,
 				8AE96586278842FC00722F89 /* Utility.swift in Sources */,
+				6169C0732AE36F7B0082C515 /* HTLocalize.swift in Sources */,
+				6169C06D2AE36F7B0082C515 /* HTViewController.swift in Sources */,
 				607FACD81AFB9204008FA782 /* ViewController.swift in Sources */,
+				6169C0712AE36F7B0082C515 /* HTOverlay.swift in Sources */,
+				6169C06B2AE36F7B0082C515 /* HTTextItem.swift in Sources */,
+				6169C0742AE36F7B0082C515 /* HTConst.swift in Sources */,
+				6169C0702AE36F7B0082C515 /* HTExtension.swift in Sources */,
 				8AB02B9C27C4756600792EF6 /* ExampleControlView.swift in Sources */,
+				6169C06E2AE36F7B0082C515 /* HTStrokeItem.swift in Sources */,
+				6169C0722AE36F7B0082C515 /* HTColorItem.swift in Sources */,
 				8A310FC12787DEA800376BB5 /* ExampleTheme.swift in Sources */,
+				6169C06F2AE36F7B0082C515 /* HTApplianceItem.swift in Sources */,
 				8AB02BA027C4758200792EF6 /* ControlCell.swift in Sources */,
 				8A28DD16278BC1BD00B5CB71 /* RoomInfo.swift in Sources */,
 				607FACD61AFB9204008FA782 /* AppDelegate.swift in Sources */,
 				8A32FA7A27C886AB00FA9367 /* UIColor+Convince.swift in Sources */,
 				8A32FA7827C885ED00FA9367 /* CustomColor.swift in Sources */,
+				6169C06C2AE36F7B0082C515 /* HTExecutionItem.swift in Sources */,
 				8AB02BBD27C4CE6A00792EF6 /* StorageItem.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -3,7 +3,9 @@ use_frameworks!
 platform :ios, '11.0'
 
 def share
-  pod 'Fastboard', :path => '../'
+#  pod 'Fastboard', :path => '../'
+pod 'Fastboard/core-YYKit', '1.3.0' # HT
+pod 'Whiteboard/Whiteboard-YYKit', '2.16.71'
 end
 
 

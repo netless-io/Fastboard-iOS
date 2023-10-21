@@ -40,6 +40,7 @@
 #import "WhiteSliderView.h"
 #import "WhiteVideoView.h"
 #import "WhiteAppParam.h"
+#import "WhiteAppSyncAttributes.h"
 #import "WhiteCameraBound.h"
 #import "WhiteCameraConfig.h"
 #import "WhiteCameraState.h"
