@@ -394,16 +394,17 @@ extension HTViewController: HTTableViewCellDelegate {
         
         if index.row < 3 {
             if action == .share { /** 点击白板分享 **/
-                let scene1 = WhiteScene(name: item.name + "|0", ppt: nil)
-                let scene2 = WhiteScene(name: item.name + "|1", ppt: nil)
-                let scene3 = WhiteScene(name: item.name + "|2", ppt: nil)
-                let scenes = [scene1, scene2,
-                              scene3]
+                let scene1 = BoardHelper.Scene(name: "0", ppt: nil)
+                let scene2 = BoardHelper.Scene(name: "1", ppt: nil)
+                let scene3 = BoardHelper.Scene(name: "2", ppt: nil)
+                let scenes = [scene1, scene2, scene3]
+                /// 添加
                 var ret = boardHelper.addWhiteBoard(path: item.name,
                                                     scenes: scenes)
                 if !ret {
                     print("addWhiteBoard fail")
                 }
+                /// 切换到当前显示
                 ret = boardHelper.switchWhiteBoard(path: item.name, page: 0)
                 if !ret {
                     print("switchWhiteBoard fail")
@@ -416,13 +417,13 @@ extension HTViewController: HTTableViewCellDelegate {
             if action == .share {
                 let jpgUrl = "https://placekitten.com/g/200/300"
                 let size = CGSize(width: 200, height: 300)
-                let scene1 = WhiteScene(name: item.name + "|0", ppt: WhitePptPage(src: jpgUrl, size: size))
-                let scene2 = WhiteScene(name: item.name + "|1", ppt: WhitePptPage(src: jpgUrl, size: size))
-                let scene3 = WhiteScene(name: item.name + "|2", ppt: WhitePptPage(src: jpgUrl, size: size))
+                let scene1 = BoardHelper.Scene(name: "0", ppt: BoardHelper.PptPage(src: jpgUrl, size: size))
+                let scene2 = BoardHelper.Scene(name: "1", ppt: BoardHelper.PptPage(src: jpgUrl, size: size))
+                let scene3 = BoardHelper.Scene(name: "2", ppt: BoardHelper.PptPage(src: jpgUrl, size: size))
                 let scenes = [scene1, scene2,
                               scene3]
                 var ret = boardHelper.addWhiteBoard(path: item.name,
-                                          scenes: scenes)
+                                                    scenes: scenes)
                 if !ret {
                     print("addWhiteBoard fail")
                 }
@@ -439,13 +440,13 @@ extension HTViewController: HTTableViewCellDelegate {
             let pngUrl1 = "https://ht-global.oss-cn-hongkong.aliyuncs.com/whiteboard/live/staticConvert/b53340649aa449e1b56c14ebc3f7d53d/13.png"
             let pngUrl2 = "https://ht-global.oss-cn-hongkong.aliyuncs.com/whiteboard/live/staticConvert/b53340649aa449e1b56c14ebc3f7d53d/19.png"
             let size = CGSize(width: 1440, height: 810)
-            let scene1 = WhiteScene(name: item.name + "|0", ppt: WhitePptPage(src: pngUrl0, size: size))
-            let scene2 = WhiteScene(name: item.name + "|1", ppt: WhitePptPage(src: pngUrl1, size: size))
-            let scene3 = WhiteScene(name: item.name + "|2", ppt: WhitePptPage(src: pngUrl2, size: size))
+            let scene1 = BoardHelper.Scene(name: "0", ppt: BoardHelper.PptPage(src: pngUrl0, size: size))
+            let scene2 = BoardHelper.Scene(name: "1", ppt: BoardHelper.PptPage(src: pngUrl1, size: size))
+            let scene3 = BoardHelper.Scene(name: "2", ppt: BoardHelper.PptPage(src: pngUrl2, size: size))
             let scenes = [scene1, scene2,
                           scene3]
             var ret = boardHelper.addWhiteBoard(path: item.name,
-                                      scenes: scenes)
+                                                scenes: scenes)
             if !ret {
                 print("addWhiteBoard fail")
             }

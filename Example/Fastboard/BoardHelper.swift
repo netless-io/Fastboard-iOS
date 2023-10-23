@@ -14,9 +14,10 @@ protocol BoardHelperDelegate: NSObjectProtocol {
 }
 
 class BoardHelper: NSObject {
-    private let fastRoom: FastRoom
+    private weak var fastRoom: FastRoom?
     private var list = [BoardListItem]()
     private let defaultDir = "/"
+    private let divideStr = "|"
     weak var delegate: BoardHelperDelegate?
     
     public init(fastRoom: FastRoom, delegate: BoardHelperDelegate?) {
@@ -42,21 +43,28 @@ class BoardHelper: NSObject {
     ///   - path: 如果是白板，给唯一标识符。如果文件就给文件名称
     ///   - scenes: 内容
     /// - Returns: `true`表示调用成功
-    func addWhiteBoard(path: String, scenes: [WhiteScene]) -> Bool {
+    func addWhiteBoard(path: String, scenes: [Scene]) -> Bool {
+        guard let fastRoom = fastRoom else {
+            log(text: "[I]: fastRoom is nil")
+            return false
+        }
         guard !path.isEmpty || !scenes.isEmpty else {
             log(text: "[E]: path or scenes of param is empty")
             return false
         }
+        
+        let newScenes = scenes.map({ $0.toWhiteScene(prefix: "\(path)\(divideStr)") })
+        
         let type = getBoardItemType(path: path)
         let item = BoardListItem(id: path,
                                  name: path,
                                  status: .inactive,
                                  scale: 1,
-                                 totalPage: UInt(scenes.count),
+                                 totalPage: UInt(newScenes.count),
                                  activityPage: 0,
                                  type: type)
         list.append(item)
-        fastRoom.room?.putScenes(defaultDir, scenes: scenes, index: UInt.max)
+        fastRoom.room?.putScenes(defaultDir, scenes: newScenes, index: UInt.max)
         log(text: "[I]: did put scene at path:\(path)")
         return true
     }
@@ -67,6 +75,10 @@ class BoardHelper: NSObject {
     ///   - page: 页面索引值，`addWhiteBoard`方法中`scenes`数组的索引
     /// - Returns: `true`表示调用成功
     public func switchWhiteBoard(path: String, page: UInt) -> Bool {
+        guard let fastRoom = fastRoom else {
+            log(text: "[I]: fastRoom is nil")
+            return false
+        }
         let item = list.first { item in
             item.id == path
         }
@@ -119,6 +131,10 @@ class BoardHelper: NSObject {
     /// 销毁具体的白板，`addWhiteBoard`的反操作
     /// - Parameter path: 同`addWhiteBoard`的`path`
     public func destoryWhiteBoard(path: String) {
+        guard let fastRoom = fastRoom else {
+            log(text: "[I]: fastRoom is nil")
+            return
+        }
         let dir = defaultDir
         fastRoom.room?.getEntireScenes({ [weak self] dic in
             guard let scenes = dic[dir] else {
@@ -131,10 +147,9 @@ class BoardHelper: NSObject {
             
             let removes = scenes.filter({ $0.name.hasPrefix(targetNamePrefix) })
             
-            
+            /** 1.切换 **/
             if let result = list.enumerated().first(where: { $0.element.status == .active }) {
-                /** 检查当前活跃的是不是要删除的那个 **/
-                if result.element.name == path {
+                if result.element.name == path, list.count > 1 { /** 有2个以上的元素，才会切换 */
                     /// 需要切换到下一个
                     let changeToIndex = result.offset == list.count - 1 ? 0: result.offset + 1
                     let changeToItem = list[changeToIndex]
@@ -146,8 +161,12 @@ class BoardHelper: NSObject {
                 }
             }
             
+            /** 1.移除 **/
             for re in removes {
                 fastRoom.room?.removeScenes(dir + re.name)
+                list.removeAll { item in
+                    item.id == re.name
+                }
             }
         })
     }
@@ -175,6 +194,35 @@ class BoardHelper: NSObject {
 }
 
 extension BoardHelper {
+    /// 和WhiteScene对应
+    struct Scene {
+        let name: String
+        let ppt: PptPage?
+        
+        func toWhiteScene(prefix: String) -> WhiteScene {
+            return WhiteScene(name: prefix + name, ppt: ppt?.toWhitePptPage)
+        }
+    }
+    /// 和PPT对应
+    struct PptPage {
+        let src: String
+        let previewUrl: String?
+        let size: CGSize
+        
+        init(src: String, previewUrl: String? = nil, size: CGSize) {
+            self.src = src
+            self.previewUrl = previewUrl
+            self.size = size
+        }
+        
+        var toWhitePptPage: WhitePptPage {
+            if let previewUrl = previewUrl {
+                return WhitePptPage(src: src, preview: previewUrl, size: size)
+            }
+            return WhitePptPage(src: src, size: size)
+        }
+    }
+    
     enum BoardItemStatus: UInt8 {
         case active
         case inactive
