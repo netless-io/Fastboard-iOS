@@ -27,7 +27,7 @@ class HTViewController: UIViewController {
     var lastEdtingTextPoint: CGPoint?
     var lastInsertTextCameraCenter: CGPoint?
     let otherView = HTOtherView(frame: .zero)
-    var boardWapper: BoardWapper!
+    var boardHelper: BoardHelper!
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -298,7 +298,7 @@ class HTViewController: UIViewController {
             self?.fastRoom.room?.setMemberState(m)
             self?.fastRoom.view.overlay?.update(strokeColor: .red)
         }
-        boardWapper = BoardWapper(fastRoom: fastRoom)
+        boardHelper = BoardHelper(fastRoom: fastRoom, delegate: self)
     }
 
     func update(editable: Bool) {
@@ -372,17 +372,23 @@ extension HTViewController: HTTableViewCellDelegate {
     func cellDidTap(index: IndexPath, action: HTAction, item: HTTableViewCell.Item) {
         
         if action == .unshare { /** 点击白板停止分享 **/
-            boardWapper.destoryWhiteBoard(path: item.name)
+            boardHelper.destoryWhiteBoard(path: item.name)
             return
         }
         
         if action == .next {
-            boardWapper.switchWhiteBoard(path: item.name, page: item.currentPage)
+            let ret = boardHelper.switchWhiteBoard(path: item.name, page: item.currentPage)
+            if !ret {
+                print("switchWhiteBoard fail")
+            }
             return
         }
         
         if action == .last {
-            boardWapper.switchWhiteBoard(path: item.name, page: item.currentPage)
+            let ret = boardHelper.switchWhiteBoard(path: item.name, page: item.currentPage)
+            if !ret {
+                print("switchWhiteBoard fail")
+            }
             return
         }
         
@@ -393,9 +399,15 @@ extension HTViewController: HTTableViewCellDelegate {
                 let scene3 = WhiteScene(name: item.name + "|2", ppt: nil)
                 let scenes = [scene1, scene2,
                               scene3]
-                boardWapper.addWhiteBoard(path: item.name,
-                                          scenes: scenes)
-                boardWapper.switchWhiteBoard(path: item.name, page: 0)
+                var ret = boardHelper.addWhiteBoard(path: item.name,
+                                                    scenes: scenes)
+                if !ret {
+                    print("addWhiteBoard fail")
+                }
+                ret = boardHelper.switchWhiteBoard(path: item.name, page: 0)
+                if !ret {
+                    print("switchWhiteBoard fail")
+                }
             }
             
         }
@@ -409,9 +421,15 @@ extension HTViewController: HTTableViewCellDelegate {
                 let scene3 = WhiteScene(name: item.name + "|2", ppt: WhitePptPage(src: jpgUrl, size: size))
                 let scenes = [scene1, scene2,
                               scene3]
-                boardWapper.addWhiteBoard(path: item.name,
+                var ret = boardHelper.addWhiteBoard(path: item.name,
                                           scenes: scenes)
-                boardWapper.switchWhiteBoard(path: item.name, page: 0)
+                if !ret {
+                    print("addWhiteBoard fail")
+                }
+                ret = boardHelper.switchWhiteBoard(path: item.name, page: 0)
+                if !ret {
+                    print("switchWhiteBoard fail")
+                }
             }
             
         }
@@ -426,14 +444,26 @@ extension HTViewController: HTTableViewCellDelegate {
             let scene3 = WhiteScene(name: item.name + "|2", ppt: WhitePptPage(src: pngUrl2, size: size))
             let scenes = [scene1, scene2,
                           scene3]
-            boardWapper.addWhiteBoard(path: item.name,
+            var ret = boardHelper.addWhiteBoard(path: item.name,
                                       scenes: scenes)
-            boardWapper.switchWhiteBoard(path: item.name, page: 0)
+            if !ret {
+                print("addWhiteBoard fail")
+            }
+            ret = boardHelper.switchWhiteBoard(path: item.name, page: 0)
+            if !ret {
+                print("switchWhiteBoard fail")
+            }
         }
     }
 }
 extension HTViewController: WhiteRoomCallbackDelegate {
     func fireRoomStateChanged(_ modifyState: WhiteRoomState!) {
         print(#function, modifyState)
+    }
+}
+
+extension HTViewController: BoardHelperDelegate {
+    func boardHelperLog(text: String) {
+        print("[BH]\(text)")
     }
 }

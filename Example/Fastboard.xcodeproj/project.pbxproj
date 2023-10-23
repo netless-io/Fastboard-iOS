@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		2605A8862AE37972007DDD2E /* HTOtherView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2605A8852AE37972007DDD2E /* HTOtherView.swift */; };
-		2605A8882AE382DB007DDD2E /* BoardWapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2605A8872AE382DB007DDD2E /* BoardWapper.swift */; };
+		2605A8882AE382DB007DDD2E /* BoardHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2605A8872AE382DB007DDD2E /* BoardHelper.swift */; };
 		607FACD61AFB9204008FA782 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607FACD51AFB9204008FA782 /* AppDelegate.swift */; };
 		607FACD81AFB9204008FA782 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607FACD71AFB9204008FA782 /* ViewController.swift */; };
 		607FACDB1AFB9204008FA782 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 607FACD91AFB9204008FA782 /* Main.storyboard */; };
@@ -69,7 +69,7 @@
 		22C403ED202C8833654663D1 /* Pods-Fastboard_Example.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Fastboard_Example.release.xcconfig"; path = "Target Support Files/Pods-Fastboard_Example/Pods-Fastboard_Example.release.xcconfig"; sourceTree = "<group>"; };
 		232246E3091BF31CA271C55B /* README-zh.md */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = net.daringfireball.markdown; name = "README-zh.md"; path = "../README-zh.md"; sourceTree = "<group>"; };
 		2605A8852AE37972007DDD2E /* HTOtherView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTOtherView.swift; sourceTree = "<group>"; };
-		2605A8872AE382DB007DDD2E /* BoardWapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardWapper.swift; sourceTree = "<group>"; };
+		2605A8872AE382DB007DDD2E /* BoardHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardHelper.swift; sourceTree = "<group>"; };
 		30F099742273D1E816E706CE /* Pods_Fastboard_Example.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Fastboard_Example.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		470BB35885E53C67CAAA0CAC /* Pods-Fastboard_Example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Fastboard_Example.debug.xcconfig"; path = "Target Support Files/Pods-Fastboard_Example/Pods-Fastboard_Example.debug.xcconfig"; sourceTree = "<group>"; };
 		5735BD3E615FCD4E13798F44 /* Fastboard.podspec */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = Fastboard.podspec; path = ../Fastboard.podspec; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
@@ -253,7 +253,7 @@
 				6169C05F2AE36F7B0082C515 /* HTTextItem.swift */,
 				6169C0612AE36F7B0082C515 /* HTViewController.swift */,
 				2605A8852AE37972007DDD2E /* HTOtherView.swift */,
-				2605A8872AE382DB007DDD2E /* BoardWapper.swift */,
+				2605A8872AE382DB007DDD2E /* BoardHelper.swift */,
 			);
 			name = HT;
 			sourceTree = "<group>";
@@ -564,7 +564,7 @@
 				6169C06F2AE36F7B0082C515 /* HTApplianceItem.swift in Sources */,
 				8AB02BA027C4758200792EF6 /* ControlCell.swift in Sources */,
 				8A28DD16278BC1BD00B5CB71 /* RoomInfo.swift in Sources */,
-				2605A8882AE382DB007DDD2E /* BoardWapper.swift in Sources */,
+				2605A8882AE382DB007DDD2E /* BoardHelper.swift in Sources */,
 				607FACD61AFB9204008FA782 /* AppDelegate.swift in Sources */,
 				8A32FA7A27C886AB00FA9367 /* UIColor+Convince.swift in Sources */,
 				8A32FA7827C885ED00FA9367 /* CustomColor.swift in Sources */,

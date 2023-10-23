@@ -1,6 +1,6 @@
 //
-//  BoardWapper.swift
-//  GPT-Demo
+//  BoardHelper.swift
+//
 //
 //  Created by ZYP on 2023/10/20.
 //
@@ -9,21 +9,44 @@ import UIKit
 import Fastboard
 import Whiteboard
 
-class BoardWapper: NSObject {
-    // 定义 fastRoom 变量
+protocol BoardHelperDelegate: NSObjectProtocol {
+    func boardHelperLog(text: String)
+}
+
+class BoardHelper: NSObject {
     private let fastRoom: FastRoom
     private var list = [BoardListItem]()
     private let defaultDir = "/"
+    weak var delegate: BoardHelperDelegate?
     
-    init(fastRoom: FastRoom) {
+    public init(fastRoom: FastRoom, delegate: BoardHelperDelegate?) {
         self.fastRoom = fastRoom
+        self.delegate = delegate
     }
     
-    func getWhiteBoardList() -> [BoardListItem] {
+    deinit {
+        log(text: "[I]: deinit")
+    }
+    
+    /// 获取当前列表
+    public func getWhiteBoardList() -> [BoardListItem] {
         return list
     }
     
-    func addWhiteBoard(path: String, scenes: [WhiteScene]) {
+    public func setWhiteBoardList(list: [BoardListItem]) {
+        self.list = list
+    }
+    
+    /// 添加一个白板
+    /// - Parameters:
+    ///   - path: 如果是白板，给唯一标识符。如果文件就给文件名称
+    ///   - scenes: 内容
+    /// - Returns: `true`表示调用成功
+    func addWhiteBoard(path: String, scenes: [WhiteScene]) -> Bool {
+        guard !path.isEmpty || !scenes.isEmpty else {
+            log(text: "[E]: path or scenes of param is empty")
+            return false
+        }
         let type = getBoardItemType(path: path)
         let item = BoardListItem(id: path,
                                  name: path,
@@ -34,17 +57,23 @@ class BoardWapper: NSObject {
                                  type: type)
         list.append(item)
         fastRoom.room?.putScenes(defaultDir, scenes: scenes, index: UInt.max)
-        print("did put scene at path:\(path)")
+        log(text: "[I]: did put scene at path:\(path)")
+        return true
     }
     
-    func switchWhiteBoard(path: String, page: UInt) {
+    /// 切换白板
+    /// - Parameters:
+    ///   - path: 同`addWhiteBoard`的`path`
+    ///   - page: 页面索引值，`addWhiteBoard`方法中`scenes`数组的索引
+    /// - Returns: `true`表示调用成功
+    public func switchWhiteBoard(path: String, page: UInt) -> Bool {
         let item = list.first { item in
             item.id == path
         }
         
         guard let item = item else {
-            print("[E]: can not find item of path:\(path)")
-            return
+            log(text: "[E]: can not find item of path:\(path)")
+            return false
         }
         
         let dir = defaultDir
@@ -57,8 +86,8 @@ class BoardWapper: NSObject {
             }
             
             if page >= scenes.count {
-                print("[E]: can not find page:\(page)")
-                print("\(scenes.map({ $0.name }))")
+                log(text: "[E]: can not find page:\(page)")
+                log(text: "[E]: \(scenes.map({ $0.name }))")
                 return
             }
             
@@ -69,25 +98,27 @@ class BoardWapper: NSObject {
             }
             
             guard targetIndex != nil else {
-                print("can not find targetIndex \(targetName)")
-                print("\(scenes.map({ $0.name }))")
+                log(text: "[E]: can not find targetIndex \(targetName)")
+                log(text:"[E]:\(scenes.map({ $0.name }))")
                 return
             }
             let index = Int(targetIndex!)
             
             fastRoom.view.whiteboardView.evaluateJavaScript("window.manager.setMainViewSceneIndex(\(index))")
-            
-            print("did setMainViewSceneIndex \(index)")
+            log(text: "[D]: did setMainViewSceneIndex \(index)")
             
             for info in list {
                 info.activityPage = item.id == info.id ? page : 0
                 info.status = item.id == info.id ? .active : .inactive
             }
         })
-        
+        return true
     }
     
-    func destoryWhiteBoard(path: String) {
+    
+    /// 销毁具体的白板，`addWhiteBoard`的反操作
+    /// - Parameter path: 同`addWhiteBoard`的`path`
+    public func destoryWhiteBoard(path: String) {
         let dir = defaultDir
         fastRoom.room?.getEntireScenes({ [weak self] dic in
             guard let scenes = dic[dir] else {
@@ -107,8 +138,11 @@ class BoardWapper: NSObject {
                     /// 需要切换到下一个
                     let changeToIndex = result.offset == list.count - 1 ? 0: result.offset + 1
                     let changeToItem = list[changeToIndex]
-                    switchWhiteBoard(path: changeToItem.name,
-                                     page: 0)
+                    let ret = switchWhiteBoard(path: changeToItem.name,
+                                               page: 0)
+                    if !ret {
+                        log(text: "[E]: switchWhiteBoard fail")
+                    }
                 }
             }
             
@@ -134,9 +168,13 @@ class BoardWapper: NSObject {
         
         return .whiteboard
     }
+    
+    private func log(text: String) {
+        delegate?.boardHelperLog(text: text)
+    }
 }
 
-extension BoardWapper {
+extension BoardHelper {
     enum BoardItemStatus: UInt8 {
         case active
         case inactive
@@ -159,7 +197,9 @@ extension BoardWapper {
         var status: BoardItemStatus
         let scale: Int
         let totalPage: UInt
+        /// 当前活跃的页面
         var activityPage: UInt
+        /// 类型
         let type: BoardItemType
         
         init(id: String, name: String, status: BoardItemStatus, scale: Int, totalPage: UInt, activityPage: UInt, type: BoardItemType) {
