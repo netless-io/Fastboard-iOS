@@ -73,11 +73,12 @@ class BoardHelper: NSObject {
     /// - Parameters:
     ///   - path: 同`addWhiteBoard`的`path`
     ///   - page: 页面索引值，`addWhiteBoard`方法中`scenes`数组的索引
-    /// - Returns: `true`表示调用成功
-    public func switchWhiteBoard(path: String, page: UInt) -> Bool {
+    ///   - compelete: 执行结果 succeed: Bool(成功/失败)
+    public func switchWhiteBoard(path: String, page: UInt, compelete: ((_ succeed: Bool) -> Void)? = nil) {
         guard let fastRoom = fastRoom else {
             log(text: "[I]: fastRoom is nil")
-            return false
+            compelete?(false)
+            return
         }
         let item = list.first { item in
             item.id == path
@@ -85,22 +86,25 @@ class BoardHelper: NSObject {
         
         guard let item = item else {
             log(text: "[E]: can not find item of path:\(path)")
-            return false
+            compelete?(false)
+            return
         }
         
         let dir = defaultDir
         fastRoom.room?.getEntireScenes({ [weak self] dic in
             guard let scenes = dic[dir] else {
+                compelete?(false)
                 return
             }
             guard let self = self else {
+                compelete?(false)
                 return
             }
             
             if page >= scenes.count {
-                log(text: "[E]: can not find page:\(page)")
-                log(text: "[E]: \(scenes.map({ $0.name }))")
-                return
+                self.log(text: "[E]: can not find page:\(page)")
+                self.log(text: "[E]: \(scenes.map({ $0.name }))")
+                compelete?(false)
             }
             
             let targetName = path + "|" + "\(page)"
@@ -110,53 +114,54 @@ class BoardHelper: NSObject {
             }
             
             guard targetIndex != nil else {
-                log(text: "[E]: can not find targetIndex \(targetName)")
-                log(text:"[E]:\(scenes.map({ $0.name }))")
+                self.log(text: "[E]: can not find targetIndex \(targetName)")
+                self.log(text:"[E]:\(scenes.map({ $0.name }))")
+                compelete?(false)
                 return
             }
             let index = Int(targetIndex!)
             
             fastRoom.view.whiteboardView.evaluateJavaScript("window.manager.setMainViewSceneIndex(\(index))")
-            log(text: "[D]: did setMainViewSceneIndex \(index)")
+            self.log(text: "[D]: did setMainViewSceneIndex \(index)")
             
-            for info in list {
+            for info in self.list {
                 info.activityPage = item.id == info.id ? page : 0
                 info.status = item.id == info.id ? .active : .inactive
             }
+            compelete?(true)
         })
-        return true
     }
     
     
     /// 销毁具体的白板，`addWhiteBoard`的反操作
     /// - Parameter path: 同`addWhiteBoard`的`path`
-    public func destoryWhiteBoard(path: String) {
+    ///   - compelete: 执行结果 succeed: Bool(成功/失败)
+    public func destoryWhiteBoard(path: String, compelete: (() -> Void)? = nil) {
         guard let fastRoom = fastRoom else {
             log(text: "[I]: fastRoom is nil")
             return
         }
         let dir = defaultDir
         fastRoom.room?.getEntireScenes({ [weak self] dic in
-            guard let scenes = dic[dir] else {
+            guard let self = self,
+                  let scenes = dic[dir]
+            else {
                 return
             }
-            guard let self = self else {
-                return
-            }
+
             let targetNamePrefix = path + "|"
             
             let removes = scenes.filter({ $0.name.hasPrefix(targetNamePrefix) })
-            
             /** 1.切换 **/
-            if let result = list.enumerated().first(where: { $0.element.status == .active }) {
-                if result.element.name == path, list.count > 1 { /** 有2个以上的元素，才会切换 */
+            if let result = self.list.enumerated().first(where: { $0.element.status == .active }) {
+                if result.element.name == path, self.list.count > 1 { /** 有2个以上的元素，才会切换 */
                     /// 需要切换到下一个
-                    let changeToIndex = result.offset == list.count - 1 ? 0: result.offset + 1
-                    let changeToItem = list[changeToIndex]
-                    let ret = switchWhiteBoard(path: changeToItem.name,
-                                               page: 0)
-                    if !ret {
-                        log(text: "[E]: switchWhiteBoard fail")
+                    let changeToIndex = result.offset == self.list.count - 1 ? 0: result.offset + 1
+                    let changeToItem = self.list[changeToIndex]
+                    self.switchWhiteBoard(path: changeToItem.name, page: 0) { succeed in
+                        if (!succeed) {
+                            self.log(text: "[E]: switchWhiteBoard fail")
+                        }
                     }
                 }
             }
@@ -164,10 +169,11 @@ class BoardHelper: NSObject {
             /** 1.移除 **/
             for re in removes {
                 fastRoom.room?.removeScenes(dir + re.name)
-                list.removeAll { item in
+                self.list.removeAll { item in
                     item.id == re.name
                 }
             }
+            compelete?()
         })
     }
     

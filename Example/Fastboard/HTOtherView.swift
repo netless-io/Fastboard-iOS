@@ -38,6 +38,7 @@ class HTOtherView: UIView, UITableViewDataSource, UITableViewDelegate {
         tableView.register(HTTableViewCell.self, forCellReuseIdentifier: "cell")
         tableView.dataSource = self
         tableView.delegate = self
+        tableView.allowsSelection = false
     }
     
     func setDatas(list: [Item], delegate: HTTableViewCellDelegate) {

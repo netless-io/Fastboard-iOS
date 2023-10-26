@@ -46,9 +46,26 @@ class HTViewController: UIViewController {
     @objc func onSwipeGesture(_ gesture: UISwipeGestureRecognizer) {
         switch gesture.direction {
         case .left:
-            fastRoom.room?.dispatchDocsEvent(.nextPage, options: nil, completionHandler: { _ in })
+            guard let item = boardHelper.getWhiteBoardList().first(where: {$0.status == .active}) else {
+                return
+            }
+            let targetPage = item.activityPage + 1
+            if (item.totalPage > targetPage) {
+                boardHelper.switchWhiteBoard(path: item.id, page: targetPage) { [self] succeed in
+                    otherView.tableView.reloadData()
+                }
+            }
         case .right:
-            fastRoom.room?.dispatchDocsEvent(.prevPage, options: nil, completionHandler: { _ in })
+            guard let item = boardHelper.getWhiteBoardList().first(where: {$0.status == .active}) else {
+                return
+            }
+            let targetPage = Int(item.activityPage) - 1
+            if (targetPage >= 0) {
+                let p = UInt(targetPage)
+                boardHelper.switchWhiteBoard(path: item.id, page: p) { [self] succeed in
+                    otherView.tableView.reloadData()
+                }
+            }
         default: return
         }
     }
@@ -158,7 +175,7 @@ class HTViewController: UIViewController {
         fastRoom.view.overlay?.dismissAllSubPanels()
         fastRoom.view.whiteboardView.evaluateJavaScript("window.manager.focusedView.camera") { [weak self] state, error in
             guard let self else { return }
-            if let error { return }
+            if let _ = error { return }
             guard let dic = state as? [String: CGFloat],
                   let centerX = dic["centerX"],
                   let centerY = dic["centerY"] else { return }
@@ -377,17 +394,19 @@ extension HTViewController: HTTableViewCellDelegate {
         }
         
         if action == .next {
-            let ret = boardHelper.switchWhiteBoard(path: item.name, page: item.currentPage)
-            if !ret {
-                print("switchWhiteBoard fail")
+            boardHelper.switchWhiteBoard(path: item.name, page: item.currentPage) { succeed in
+                if !succeed {
+                    print("switchWhiteBoard fail")
+                }
             }
             return
         }
         
         if action == .last {
-            let ret = boardHelper.switchWhiteBoard(path: item.name, page: item.currentPage)
-            if !ret {
-                print("switchWhiteBoard fail")
+            boardHelper.switchWhiteBoard(path: item.name, page: item.currentPage) { succeed in
+                if !succeed {
+                    print("switchWhiteBoard fail")
+                }
             }
             return
         }
@@ -399,18 +418,17 @@ extension HTViewController: HTTableViewCellDelegate {
                 let scene3 = BoardHelper.Scene(name: "2", ppt: nil)
                 let scenes = [scene1, scene2, scene3]
                 /// 添加
-                var ret = boardHelper.addWhiteBoard(path: item.name,
-                                                    scenes: scenes)
+                let ret = boardHelper.addWhiteBoard(path: item.name, scenes: scenes)
                 if !ret {
                     print("addWhiteBoard fail")
                 }
                 /// 切换到当前显示
-                ret = boardHelper.switchWhiteBoard(path: item.name, page: 0)
-                if !ret {
-                    print("switchWhiteBoard fail")
+                boardHelper.switchWhiteBoard(path: item.name, page: 0) { succeed in
+                    if !succeed {
+                        print("switchWhiteBoard fail")
+                    }
                 }
             }
-            
         }
         
         if index.row == 3 {
@@ -422,17 +440,16 @@ extension HTViewController: HTTableViewCellDelegate {
                 let scene3 = BoardHelper.Scene(name: "2", ppt: BoardHelper.PptPage(src: jpgUrl, size: size))
                 let scenes = [scene1, scene2,
                               scene3]
-                var ret = boardHelper.addWhiteBoard(path: item.name,
-                                                    scenes: scenes)
+                let ret = boardHelper.addWhiteBoard(path: item.name, scenes: scenes)
                 if !ret {
                     print("addWhiteBoard fail")
                 }
-                ret = boardHelper.switchWhiteBoard(path: item.name, page: 0)
-                if !ret {
-                    print("switchWhiteBoard fail")
+                boardHelper.switchWhiteBoard(path: item.name, page: 0) { succeed in
+                    if !succeed {
+                        print("switchWhiteBoard fail")
+                    }
                 }
             }
-            
         }
         
         if index.row == 4 {
@@ -445,14 +462,14 @@ extension HTViewController: HTTableViewCellDelegate {
             let scene3 = BoardHelper.Scene(name: "2", ppt: BoardHelper.PptPage(src: pngUrl2, size: size))
             let scenes = [scene1, scene2,
                           scene3]
-            var ret = boardHelper.addWhiteBoard(path: item.name,
-                                                scenes: scenes)
+            let ret = boardHelper.addWhiteBoard(path: item.name, scenes: scenes)
             if !ret {
                 print("addWhiteBoard fail")
             }
-            ret = boardHelper.switchWhiteBoard(path: item.name, page: 0)
-            if !ret {
-                print("switchWhiteBoard fail")
+            boardHelper.switchWhiteBoard(path: item.name, page: 0) { succeed in
+                if !succeed {
+                    print("switchWhiteBoard fail")
+                }
             }
         }
     }
