@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 56;
+	objectVersion = 60;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -28,10 +28,10 @@
 		8AC5FD472AC2C27C00DEC632 /* CustomColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AC5FD342AC2C27C00DEC632 /* CustomColor.swift */; };
 		8AC5FD4D2AC2C30600DEC632 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 8AC5FD4C2AC2C30600DEC632 /* SnapKit */; };
 		8AC5FD4F2AC2C30600DEC632 /* SnapKit-Dynamic in Frameworks */ = {isa = PBXBuildFile; productRef = 8AC5FD4E2AC2C30600DEC632 /* SnapKit-Dynamic */; };
-		8AC5FD542AC2C34900DEC632 /* Fastboard in Frameworks */ = {isa = PBXBuildFile; productRef = 8AC5FD532AC2C34900DEC632 /* Fastboard */; };
 		8AC5FD582AC2C59100DEC632 /* FastboardConfig.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 8AC5FD572AC2C59100DEC632 /* FastboardConfig.xcconfig */; };
 		8ACF0B912AC2B9C200D50B22 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8ACF0B8F2AC2B9C200D50B22 /* Main.storyboard */; };
 		8ACF0B962AC2B9C300D50B22 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8ACF0B942AC2B9C300D50B22 /* LaunchScreen.storyboard */; };
+		8AFD61EE2B21CE0F007D765B /* Fastboard in Frameworks */ = {isa = PBXBuildFile; productRef = 8AFD61ED2B21CE0F007D765B /* Fastboard */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -82,7 +82,7 @@
 			files = (
 				8AC5FD4D2AC2C30600DEC632 /* SnapKit in Frameworks */,
 				8AC5FD4F2AC2C30600DEC632 /* SnapKit-Dynamic in Frameworks */,
-				8AC5FD542AC2C34900DEC632 /* Fastboard in Frameworks */,
+				8AFD61EE2B21CE0F007D765B /* Fastboard in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -190,7 +190,7 @@
 			packageProductDependencies = (
 				8AC5FD4C2AC2C30600DEC632 /* SnapKit */,
 				8AC5FD4E2AC2C30600DEC632 /* SnapKit-Dynamic */,
-				8AC5FD532AC2C34900DEC632 /* Fastboard */,
+				8AFD61ED2B21CE0F007D765B /* Fastboard */,
 			);
 			productName = "Fastboard-SPM-Example";
 			productReference = 8ACF0B862AC2B9C200D50B22 /* Fastboard-SPM-Example.app */;
@@ -224,6 +224,7 @@
 			mainGroup = 8ACF0B7D2AC2B9C200D50B22;
 			packageReferences = (
 				8AC5FD4B2AC2C30600DEC632 /* XCRemoteSwiftPackageReference "SnapKit" */,
+				8AFD61EA2B21CDA7007D765B /* XCLocalSwiftPackageReference "../.." */,
 			);
 			productRefGroup = 8ACF0B872AC2B9C200D50B22 /* Products */;
 			projectDirPath = "";
@@ -508,6 +509,13 @@
 		};
 /* End XCConfigurationList section */
 
+/* Begin XCLocalSwiftPackageReference section */
+		8AFD61EA2B21CDA7007D765B /* XCLocalSwiftPackageReference "../.." */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = ../..;
+		};
+/* End XCLocalSwiftPackageReference section */
+
 /* Begin XCRemoteSwiftPackageReference section */
 		8AC5FD4B2AC2C30600DEC632 /* XCRemoteSwiftPackageReference "SnapKit" */ = {
 			isa = XCRemoteSwiftPackageReference;
@@ -530,7 +538,7 @@
 			package = 8AC5FD4B2AC2C30600DEC632 /* XCRemoteSwiftPackageReference "SnapKit" */;
 			productName = "SnapKit-Dynamic";
 		};
-		8AC5FD532AC2C34900DEC632 /* Fastboard */ = {
+		8AFD61ED2B21CE0F007D765B /* Fastboard */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = Fastboard;
 		};
