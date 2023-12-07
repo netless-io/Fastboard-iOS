@@ -15,6 +15,13 @@
     if (self) {
         _showRenderError = NO;
         _debug = NO;
+        _enableGlobalClick = YES;
+        _minFPS = @25;
+        _maxFPS = @30;
+        _resolution = @1;
+        _maxResolutionLevel = @2;
+        _forceCanvas = FALSE;
+        _bgColor = nil;
     }
     return self;
 }

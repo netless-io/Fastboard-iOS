@@ -1,35 +1,19 @@
 PODS:
-  - Fastboard (1.3.0):
-    - Fastboard/core (= 1.3.0)
-  - Fastboard/core (1.3.0):
-    - Whiteboard (~> 2.16.63)
+  - Fastboard (1.4.0):
+    - Fastboard/core (= 1.4.0)
+  - Fastboard/core (1.4.0):
+    - Whiteboard (~> 2.16.81)
   - Masonry (1.1.0)
-  - NTLBridge (3.1.5)
+  - NTLBridge (3.1.6)
   - SnapKit (5.6.0)
-  - Whiteboard (2.16.63):
-    - Whiteboard/Whiteboard-YYModel (= 2.16.63)
-  - Whiteboard/Base (2.16.63):
+  - White_YYModel (1.0.5)
+  - Whiteboard (2.16.81):
+    - Whiteboard/Whiteboard-Basic (= 2.16.81)
+  - Whiteboard/Resource (2.16.81)
+  - Whiteboard/Whiteboard-Basic (2.16.81):
     - NTLBridge (~> 3.1.4)
-    - Whiteboard/Object
-  - Whiteboard/Converter (2.16.63):
-    - Whiteboard/Object
-  - Whiteboard/Model (2.16.63):
-    - YYModel
-  - Whiteboard/NativeReplayer (2.16.63):
-    - Whiteboard/Replayer
-  - Whiteboard/Object (2.16.63):
-    - Whiteboard/Model
-  - Whiteboard/Replayer (2.16.63):
-    - Whiteboard/Base
-  - Whiteboard/Resource (2.16.63)
-  - Whiteboard/Room (2.16.63):
-    - Whiteboard/Base
-  - Whiteboard/Whiteboard-YYModel (2.16.63):
-    - Whiteboard/Converter
-    - Whiteboard/NativeReplayer
+    - White_YYModel
     - Whiteboard/Resource
-    - Whiteboard/Room
-  - YYModel (1.0.4)
 
 DEPENDENCIES:
   - Fastboard (from `../`)
@@ -41,21 +25,21 @@ SPEC REPOS:
     - Masonry
     - NTLBridge
     - SnapKit
+    - White_YYModel
     - Whiteboard
-    - YYModel
 
 EXTERNAL SOURCES:
   Fastboard:
     :path: "../"
 
 SPEC CHECKSUMS:
-  Fastboard: aea4a8004fb89035b59ae40c4470e4d4aa6ed7e0
+  Fastboard: 717ae9e2efb1edcf20d85341a822adeeafd0ce0d
   Masonry: 678fab65091a9290e40e2832a55e7ab731aad201
-  NTLBridge: e94dc18242476b0238c10213a5438d9b9a59fcce
+  NTLBridge: 6ef7f3c1fc956f2e2d701a89828d51674bd479c7
   SnapKit: e01d52ebb8ddbc333eefe2132acf85c8227d9c25
-  Whiteboard: 08958d1d43bcc07a5f4454018857fbc06117c74a
-  YYModel: 2a7fdd96aaa4b86a824e26d0c517de8928c04b30
+  White_YYModel: b71cacc651398e636fa872d625d3f59713ce3715
+  Whiteboard: 2d3ef20ae10d1fa6c6fd233fd2bddc4575a0eea9
 
-PODFILE CHECKSUM: d213b346212ec42ffd173de873e980509bf3df46
+PODFILE CHECKSUM: 5bc98ef6f1acb91e5aa69ed5ac0002b12e88cb65
 
-COCOAPODS: 1.12.1
+COCOAPODS: 1.13.0

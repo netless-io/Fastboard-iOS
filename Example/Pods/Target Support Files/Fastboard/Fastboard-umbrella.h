@@ -11,6 +11,7 @@
 #endif
 
 #import "FastProxy.h"
+#import "FastProxy.h"
 
 FOUNDATION_EXPORT double FastboardVersionNumber;
 FOUNDATION_EXPORT const unsigned char FastboardVersionString[];

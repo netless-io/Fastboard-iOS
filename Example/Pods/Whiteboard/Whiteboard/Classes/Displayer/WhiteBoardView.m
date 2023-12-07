@@ -42,17 +42,11 @@
 - (instancetype)initWithFrame:(CGRect)frame configuration:(WKWebViewConfiguration *)configuration
 {
     configuration.allowsInlineMediaPlayback = YES;
-    
-    NSOperatingSystemVersion iOS_10_0_0 = (NSOperatingSystemVersion){10, 0, 0};
-    NSOperatingSystemVersion iOS_11_0_0 = (NSOperatingSystemVersion){11, 0, 0};
-
-    if ([[NSProcessInfo processInfo] isOperatingSystemAtLeastVersion: iOS_10_0_0]) {
-        configuration.mediaTypesRequiringUserActionForPlayback = WKAudiovisualMediaTypeNone;
-    }
+    configuration.mediaTypesRequiringUserActionForPlayback = WKAudiovisualMediaTypeNone;
     
     self = [super initWithFrame:frame configuration:configuration];
     
-    if ([[NSProcessInfo processInfo] isOperatingSystemAtLeastVersion: iOS_11_0_0]) {
+    if (@available(iOS 11.0, *)) {
         self.scrollView.contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentNever;
     }
     
@@ -72,6 +66,14 @@
     }];
     
     [self loadRequest:[NSURLRequest requestWithURL:[self resourceURL]]];
+    
+#if DEBUG
+    if (@available(iOS 16.4, *)) {
+        self.inspectable = YES;
+    } else {
+        // Fallback on earlier versions
+    }
+#endif
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardHandler:) name:UIKeyboardWillChangeFrameNotification object:nil];
     return self;
@@ -135,6 +137,64 @@
     [self callHandler:@"sdk.newWhiteSdk" arguments:@[config] completionHandler:nil];
 }
 
+- (void)observeWKWebViewConsole {
+    NSString *logCaptureJsScript = @"\
+let oLog = console.log;\
+let oWarn = console.warn;\
+let oError = console.error;\
+let oDebug = console.debug;\
+function oneLevelObjectPrint(key, value) {\
+  if (key.length === 0) { return value; }\
+  if (typeof value === 'object') { return `[Object], ${key}`; }\
+  return value;\
+}\
+function log(type, args) {\
+      window.webkit.messageHandlers._netless_web_console_log_.postMessage(\
+      `${type}: ${Object.values(args)\
+      .map(v=> {\
+          if (typeof(v) === 'undefined') {\
+              return 'undefined';\
+          };\
+          if (typeof(v) === 'object') {\
+              if (v instanceof Error) {\
+                  return JSON.stringify(v, Object.getOwnPropertyNames(v));\
+              }\
+              return JSON.stringify(v, oneLevelObjectPrint);\
+          }\
+          return v.toString();\
+      })\
+      .map(v => v.substring(0, 3000))\
+      .join(', ')}`\
+  )\
+}\
+console.log = function() {\
+    log('LOG', arguments);oLog.apply(null, arguments);\
+};\
+console.warn = function() {\
+    log('WARN', arguments);oWarn.apply(null, arguments);\
+};\
+console.error = function() {\
+    log('ERROR', arguments);oError.apply(null, arguments);\
+};\
+console.debug = function() {\
+    log('DEBUG', arguments);oDebug.apply(null, arguments);\
+};\
+window.addEventListener('error', function(e) {\
+    log('UNCAUGHT', [`${e.message} at ${e.filename}:${e.lineno}:${e.colno}`]);\
+    window.e = e;\
+});\
+    ";
+    WKUserScript *script = [[WKUserScript alloc] initWithSource:logCaptureJsScript injectionTime:WKUserScriptInjectionTimeAtDocumentEnd forMainFrameOnly:NO];
+    [self.configuration.userContentController addUserScript:script];
+    [self.configuration.userContentController addScriptMessageHandler:self name:@"_netless_web_console_log_"];
+}
+
+- (void)userContentController:(nonnull WKUserContentController *)userContentController didReceiveScriptMessage:(nonnull WKScriptMessage *)message {
+    [self.commonCallbacks logger: @{
+        @"[WhiteWKConsole]": message.body
+    }];
+}
+
 #pragma mark - Override
 -(void)callHandler:(NSString *)methodName arguments:(NSArray *)args completionHandler:(void (^)(id  _Nullable value))completionHandler
 {
@@ -157,7 +217,7 @@
         } else if ([item isKindOfClass:[WhiteObject class]]) {
             [arr addObject:[(WhiteObject *)item jsonDict]];
         } else {
-            [arr addObject:([item yy_modelToJSONObject] ? : @"")];
+            [arr addObject:([item _white_yy_modelToJSONObject] ? : @"")];
         }
     }
     dispatch_main_async_safe(^ {

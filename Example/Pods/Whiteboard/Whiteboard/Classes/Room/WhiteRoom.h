@@ -22,6 +22,7 @@
 #import "WhiteSDK+Room.h"
 #import "WhiteAppParam.h"
 #import "WhiteWindowDocsEventOptions.h"
+#import "WhiteAppSyncAttributes.h"
 
 @class WhiteBoardView;
 
@@ -186,6 +187,13 @@ NS_ASSUME_NONNULL_BEGIN
  * @param completionHandler 返回该文字的标识符
  */
 - (void)insertText:(CGFloat)x y:(CGFloat)y textContent:(NSString *)textContent completionHandler:(void (^) (NSString * textId))completionHandler;
+
+/**
+ * 更新置顶 id 文本内容
+ * @param textId 文字标识符
+ * @param textContent 文字内容
+ */
+- (void)updateText:(NSString *)textId textContent:(NSString *)textContent;
 
 #pragma mark - Image API
 
@@ -510,8 +518,6 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (void)duplicate;
 
-
-- (void)deleteOpertion DEPRECATED_MSG_ATTRIBUTE("use deleteOperation");
 /**
  * 删除选中内容。
  */
@@ -630,6 +636,8 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * 添加窗口
  * @param appParams app 类型以及配置内容
+ *
+ * @warning 多次插入同一个 ppt 时，插入会失败，返回的 appId 为 nil 。
  */
 - (void)addApp:(WhiteAppParam *)appParams completionHandler:(void (^)(NSString *appId))completionHandler;
 
@@ -640,6 +648,27 @@ NS_ASSUME_NONNULL_BEGIN
  * @param appId 添加app时返回的id
  */
 - (void)closeApp:(NSString *)appId completionHandler:(void (^)(void))completionHandler;
+
+/**
+ * 切换聚焦窗口
+ * 该方法仅在多窗口下有效
+ *
+ * @param appId 添加app时返回的id
+ */
+- (void)focusApp:(NSString *)appId;
+
+/** 查询所有 App 信息
+ *  该方法仅在多窗口下有效
+ * @param completionHandler 查询结果回调
+ */
+- (void)queryAllAppsWithCompletionHandler:(void (^)(NSDictionary<NSString *, WhiteAppSyncAttributes *> *apps, NSError * _Nullable error))completionHandler;
+
+/** 查询 App 信息
+ *  该方法仅在多窗口下有效
+ * @param appId 添加app时返回的id
+ * @param completionHandler 查询结果回调
+ */
+- (void)queryApp:(NSString *)appId completionHandler:(void (^)(WhiteAppSyncAttributes *appParam, NSError * _Nullable error))completionHandler;
 
 /**
  * 派发文档事件
@@ -657,6 +686,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark - 弃用方法
 @interface WhiteRoom (Deprecated)
+
+- (void)deleteOpertion DEPRECATED_MSG_ATTRIBUTE("use deleteOperation");
 
 /**
  @deprecated 该方法已废弃，请使用 [disableDeviceInputs](disableDeviceInputs:) 和 [disableCameraTransform](disableCameraTransform:)。

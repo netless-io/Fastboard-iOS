@@ -11,12 +11,12 @@
 
 #import <Foundation/Foundation.h>
 
-#if __has_include(<YYModel/YYModel.h>)
-FOUNDATION_EXPORT double YYModelVersionNumber;
+#if __has_include(<White_YYModel/White_YYModel.h>)
+FOUNDATION_EXPORT double White_YYModelVersionNumber;
 FOUNDATION_EXPORT const unsigned char YYModelVersionString[];
-#import <YYModel/NSObject+YYModel.h>
-#import <YYModel/YYClassInfo.h>
+#import <White_YYModel/NSObject+White_YYModel.h>
+#import <White_YYModel/White_YYClassInfo.h>
 #else
-#import "NSObject+YYModel.h"
-#import "YYClassInfo.h"
+#import "NSObject+White_YYModel.h"
+#import "White_YYClassInfo.h"
 #endif

@@ -16,6 +16,7 @@
 
 @property (nonatomic, strong, readwrite) WhiteSdkConfiguration *config;
 @property (nonatomic, strong, readwrite) WhiteAudioMixerBridge *audioMixer;
+@property (nonatomic, strong, readwrite) WhiteAudioEffectMixerBridge *effectMixer;
 
 @property (nonatomic, copy) NSString *requestingSlideLogSessionId;
 @property (nonatomic, copy) NSString *slideLogPath;
@@ -29,11 +30,10 @@
 
 + (NSString *)version
 {
-    return @"2.16.63";
+    return @"2.16.81";
 }
 
-- (instancetype)initWithWhiteBoardView:(WhiteBoardView *)boardView config:(WhiteSdkConfiguration *)config commonCallbackDelegate:(nullable id<WhiteCommonCallbackDelegate>)callback audioMixerBridgeDelegate:( id<WhiteAudioMixerBridgeDelegate>)mixer
-{
+- (instancetype)initWithWhiteBoardView:(WhiteBoardView *)boardView config:(WhiteSdkConfiguration *)config commonCallbackDelegate:(nullable id<WhiteCommonCallbackDelegate>)callback audioMixerBridgeDelegate:(nullable id<WhiteAudioMixerBridgeDelegate>)mixer effectMixerBridgeDelegate:(nullable id<WhiteAudioEffectMixerBridgeDelegate>)effectMixer {
     self = [super init];
     if (self) {
         _bridge = boardView;
@@ -44,14 +44,28 @@
             _audioMixer = [[WhiteAudioMixerBridge alloc] initWithBridge:boardView delegate:mixer];
             [self.bridge addJavascriptObject:_audioMixer namespace:@"rtc"];
         }
+        if ([effectMixer conformsToProtocol:@protocol(WhiteAudioEffectMixerBridgeDelegate)]) {
+            config.enableRtcAudioEffectIntercept = YES;
+            _effectMixer = [[WhiteAudioEffectMixerBridge alloc] initWithBridge:boardView delegate:effectMixer];
+            [self.bridge addJavascriptObject:_effectMixer namespace:@"rtc"];
+        }
         [self setupWebSdk];
     }
     return self;
 }
 
+- (instancetype)initWithWhiteBoardView:(WhiteBoardView *)boardView config:(WhiteSdkConfiguration *)config commonCallbackDelegate:(nullable id<WhiteCommonCallbackDelegate>)callback effectMixerBridgeDelegate:(nullable id<WhiteAudioEffectMixerBridgeDelegate>)effectMixer {
+    return [self initWithWhiteBoardView:boardView config:config commonCallbackDelegate:callback audioMixerBridgeDelegate:nil effectMixerBridgeDelegate:effectMixer];
+}
+
+- (instancetype)initWithWhiteBoardView:(WhiteBoardView *)boardView config:(WhiteSdkConfiguration *)config commonCallbackDelegate:(nullable id<WhiteCommonCallbackDelegate>)callback audioMixerBridgeDelegate:(nullable id<WhiteAudioMixerBridgeDelegate>)mixer
+{
+    return [self initWithWhiteBoardView:boardView config:config commonCallbackDelegate:callback audioMixerBridgeDelegate:mixer effectMixerBridgeDelegate:nil];
+}
+
 - (instancetype)initWithWhiteBoardView:(WhiteBoardView *)boardView config:(WhiteSdkConfiguration *)config commonCallbackDelegate:(nullable id<WhiteCommonCallbackDelegate>)callback
 {
-    self = [self initWithWhiteBoardView:boardView config:config commonCallbackDelegate:callback audioMixerBridgeDelegate:nil];
+    self = [self initWithWhiteBoardView:boardView config:config commonCallbackDelegate:callback audioMixerBridgeDelegate:nil effectMixerBridgeDelegate:nil];
     return self;
 }
 
@@ -73,7 +87,7 @@
         if (completionHandler) {
             NSDictionary *info = value;
             BOOL success = [info[@"success"] boolValue];
-            WhiteFontFace *fontFace = [WhiteFontFace modelWithJSON:info[@"fontFace"]];
+            WhiteFontFace *fontFace = [WhiteFontFace _white_yy_modelWithJSON:info[@"fontFace"]];
             if (success) {
                 completionHandler(YES, fontFace, nil);
             } else {
@@ -117,6 +131,9 @@
 #pragma mark - Private
 - (void)setupWebSdk
 {
+    if ([self.config.loggerOptions[@"printLevelMask"] isEqualToString:WhiteSDKLoggerOptionLevelDebug]) {
+        [self.bridge observeWKWebViewConsole];
+    }
     [self.bridge setupWebSDKWithConfig:self.config completion:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onSlideLogNotification:) name:@"Slide-Log" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onSlideVolumeNotification:) name:@"Slide-Volume" object:nil];
@@ -127,18 +144,23 @@
 {
     self.requestSlideVolumeHandler = completionHandler;
     __weak typeof(self) weakSelf = self;
-    [self.bridge evaluateJavaScript:@"window.postMessage({type: \"@slide/_get_volume_\"}, '*');" completionHandler:^(id _Nullable result, NSError * _Nullable error) {
-        if (error) {
-            completionHandler(0, error);
-            weakSelf.requestSlideVolumeHandler = nil;
-            return;
-        }
-    }];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [weakSelf.bridge evaluateJavaScript:@"window.postMessage({type: \"@slide/_get_volume_\"}, '*');" completionHandler:^(id _Nullable result, NSError * _Nullable error) {
+            if (error) {
+                completionHandler(0, error);
+                weakSelf.requestSlideVolumeHandler = nil;
+                return;
+            }
+        }];
+    });
 }
 
 - (void)updateSlideVolume:(CGFloat)volume
 {
-    [self.bridge evaluateJavaScript:[NSString stringWithFormat:@"window.postMessage ({'type': \"@slide/_update_volume_\", 'volume': %f}, '*')", volume] completionHandler:nil];
+    __weak typeof(self) weakSelf = self;
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [weakSelf.bridge evaluateJavaScript:[NSString stringWithFormat:@"window.postMessage ({'type': \"@slide/_update_volume_\", 'volume': %f}, '*')", volume] completionHandler:nil];
+    });
 }
 
 #pragma mark - CommonCallback
@@ -167,12 +189,15 @@
     self.slideLogPath = path;
     self.slideLogFileHandler = [NSFileHandle fileHandleForWritingAtPath:path];
     NSString *logJs = [NSString stringWithFormat:@"window.postMessage({type: '@slide/_request_log_', sessionId: '%@'}, '*')", sessionId];
-    [self.bridge evaluateJavaScript:logJs completionHandler:^(id _Nullable value, NSError * _Nullable error) {
-        if (error) {
-            result(NO, error);
-            [self cleanSlideLogResource];
-        }
-    }];
+    __weak typeof(self) weakSelf = self;
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [weakSelf.bridge evaluateJavaScript:logJs completionHandler:^(id _Nullable value, NSError * _Nullable error) {
+            if (error) {
+                result(NO, error);
+                [weakSelf cleanSlideLogResource];
+            }
+        }];
+    });
 }
 
 - (void)cleanSlideLogResource
