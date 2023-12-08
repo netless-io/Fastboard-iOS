@@ -14,7 +14,7 @@ let package = Package(
         ),
     ],
     dependencies: [
-        .package(name: "Whiteboard", url: "https://github.com/netless-io/Whiteboard-iOS.git", from: .init(2, 16, 73)),
+        .package(name: "Whiteboard", url: "https://github.com/netless-io/Whiteboard-iOS.git", from: .init(2, 16, 81)),
     ],
     targets: [
         .target(
