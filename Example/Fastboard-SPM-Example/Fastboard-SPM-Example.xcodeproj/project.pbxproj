@@ -26,7 +26,6 @@
 		8AC5FD452AC2C27C00DEC632 /* StorageItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AC5FD302AC2C27C00DEC632 /* StorageItem.swift */; };
 		8AC5FD462AC2C27C00DEC632 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8AC5FD322AC2C27C00DEC632 /* Localizable.strings */; };
 		8AC5FD472AC2C27C00DEC632 /* CustomColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AC5FD342AC2C27C00DEC632 /* CustomColor.swift */; };
-		8AC5FD4A2AC2C2C700DEC632 /* Whiteboard in Frameworks */ = {isa = PBXBuildFile; productRef = 8AC5FD492AC2C2C700DEC632 /* Whiteboard */; };
 		8AC5FD4D2AC2C30600DEC632 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 8AC5FD4C2AC2C30600DEC632 /* SnapKit */; };
 		8AC5FD4F2AC2C30600DEC632 /* SnapKit-Dynamic in Frameworks */ = {isa = PBXBuildFile; productRef = 8AC5FD4E2AC2C30600DEC632 /* SnapKit-Dynamic */; };
 		8AC5FD542AC2C34900DEC632 /* Fastboard in Frameworks */ = {isa = PBXBuildFile; productRef = 8AC5FD532AC2C34900DEC632 /* Fastboard */; };
@@ -81,7 +80,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8AC5FD4A2AC2C2C700DEC632 /* Whiteboard in Frameworks */,
 				8AC5FD4D2AC2C30600DEC632 /* SnapKit in Frameworks */,
 				8AC5FD4F2AC2C30600DEC632 /* SnapKit-Dynamic in Frameworks */,
 				8AC5FD542AC2C34900DEC632 /* Fastboard in Frameworks */,
@@ -190,7 +188,6 @@
 			);
 			name = "Fastboard-SPM-Example";
 			packageProductDependencies = (
-				8AC5FD492AC2C2C700DEC632 /* Whiteboard */,
 				8AC5FD4C2AC2C30600DEC632 /* SnapKit */,
 				8AC5FD4E2AC2C30600DEC632 /* SnapKit-Dynamic */,
 				8AC5FD532AC2C34900DEC632 /* Fastboard */,
@@ -226,7 +223,6 @@
 			);
 			mainGroup = 8ACF0B7D2AC2B9C200D50B22;
 			packageReferences = (
-				8AC5FD482AC2C2C700DEC632 /* XCRemoteSwiftPackageReference "Whiteboard-iOS" */,
 				8AC5FD4B2AC2C30600DEC632 /* XCRemoteSwiftPackageReference "SnapKit" */,
 			);
 			productRefGroup = 8ACF0B872AC2B9C200D50B22 /* Products */;
@@ -513,14 +509,6 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		8AC5FD482AC2C2C700DEC632 /* XCRemoteSwiftPackageReference "Whiteboard-iOS" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/netless-io/Whiteboard-iOS.git";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 2.16.73;
-			};
-		};
 		8AC5FD4B2AC2C30600DEC632 /* XCRemoteSwiftPackageReference "SnapKit" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/SnapKit/SnapKit";
@@ -532,11 +520,6 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		8AC5FD492AC2C2C700DEC632 /* Whiteboard */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 8AC5FD482AC2C2C700DEC632 /* XCRemoteSwiftPackageReference "Whiteboard-iOS" */;
-			productName = Whiteboard;
-		};
 		8AC5FD4C2AC2C30600DEC632 /* SnapKit */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 8AC5FD4B2AC2C30600DEC632 /* XCRemoteSwiftPackageReference "SnapKit" */;
