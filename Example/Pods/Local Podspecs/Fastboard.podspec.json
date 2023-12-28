@@ -1,6 +1,6 @@
 {
   "name": "Fastboard",
-  "version": "2.0.0-alpha.17",
+  "version": "2.0.0-alpha.18",
   "summary": "Quickly create a whiteboard interface for iOS",
   "description": "High-level SDK for Whiteboard-iOS with UI.\nWe recommend using Whiteboard-iOS directly if you need more customization,",
   "homepage": "https://github.com/netless-io/fastboard-iOS",
@@ -13,7 +13,7 @@
   },
   "source": {
     "git": "https://github.com/netless-io/fastboard-iOS.git",
-    "tag": "2.0.0-alpha.17"
+    "tag": "2.0.0-alpha.18"
   },
   "swift_versions": "5.0",
   "platforms": {
@@ -26,25 +26,7 @@
       "source_files": "Fastboard/Classes/**/*",
       "dependencies": {
         "Whiteboard": [
-          "~> 2.17.0-alpha.25"
-        ]
-      },
-      "resource_bundles": {
-        "Icons": [
-          "Fastboard/Assets/*.xcassets"
-        ],
-        "LocalizedStrings": [
-          "Fastboard/Assets/*.lproj/*.strings"
-        ]
-      },
-      "frameworks": "UIKit"
-    },
-    {
-      "name": "core-YYKit",
-      "source_files": "Fastboard/Classes/**/*",
-      "dependencies": {
-        "Whiteboard/Whiteboard-YYKit": [
-          "~> 2.17.0-alpha.25"
+          "~> 2.17.0-alpha.28"
         ]
       },
       "resource_bundles": {
