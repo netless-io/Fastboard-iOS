@@ -18,17 +18,7 @@ Pod::Spec.new do |s|
   
   s.subspec 'core' do |core|
     core.source_files = 'Fastboard/Classes/**/*'
-    core.dependency 'Whiteboard', '~> 2.17.0-alpha.25'
-    core.resource_bundles = {
-      'Icons' => ['Fastboard/Assets/*.xcassets'],
-      'LocalizedStrings' => ['Fastboard/Assets/*.lproj/*.strings']
-    }
-    core.frameworks = 'UIKit'
-  end
-  
-  s.subspec 'core-YYKit' do |core|
-    core.source_files = 'Fastboard/Classes/**/*'
-    core.dependency 'Whiteboard/Whiteboard-YYKit', '~> 2.17.0-alpha.25'
+    core.dependency 'Whiteboard', '~> 2.17.0-alpha.28'
     core.resource_bundles = {
       'Icons' => ['Fastboard/Assets/*.xcassets'],
       'LocalizedStrings' => ['Fastboard/Assets/*.lproj/*.strings']
