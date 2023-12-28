@@ -52,7 +52,8 @@ public class RegularFastRoomOverlay: NSObject, FastRoomOverlay, FastPanelDelegat
     
     func active(item: FastRoomOperationItem, withSubPanel: Bool) {
         func performSub(_ sub: SubOpsItem) {
-            sub.onClick(sub.associatedView as! UIButton)
+            guard let btn = sub.associatedView as? UIButton else { return }
+            sub.onClick(btn)
             if !withSubPanel {
                 // Do not show panel
                 sub.subPanelView.hide()

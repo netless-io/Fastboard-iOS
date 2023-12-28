@@ -257,7 +257,7 @@ public class SubOpsItem: NSObject, FastRoomOperationItem {
         if let selectedApplianceItem = selectedApplianceItem {
             let image = selectedApplianceItem.image
             let selectedImage = selectedApplianceItem.selectedImage
-            let btn = associatedView as! FastRoomPanelItemButton
+            guard let btn = associatedView as? FastRoomPanelItemButton else { return }
             btn.rawImage = image
             btn.rawSelectedImage = selectedImage
         }
@@ -268,7 +268,7 @@ public class SubOpsItem: NSObject, FastRoomOperationItem {
         deselectAllApplianceItems()
         if let selectedApplianceItem = selectedApplianceItem {
             selectedApplianceItem.button.isSelected = true
-            let btn = associatedView as! FastRoomPanelItemButton
+            guard let btn = associatedView as? FastRoomPanelItemButton else { return }
             btn.isSelected = true
         }
     }
