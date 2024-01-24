@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Fastboard
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -14,7 +15,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        // Override point for customization after application launch.
+        
+        if #available(iOS 13, *) {
+            let theme = FastRoomDefaultTheme.defaultAutoTheme
+            theme.whiteboardAssets.whiteboardBackgroundColor = .clear
+            FastRoomThemeManager.shared.apply(theme)
+        } else {
+            let theme = FastRoomDefaultTheme.defaultLightTheme
+            theme.whiteboardAssets.whiteboardBackgroundColor = .clear
+            FastRoomThemeManager.shared.apply(theme)
+        }
         return true
     }
 

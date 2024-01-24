@@ -130,6 +130,11 @@ class ViewController: UIViewController {
             activity.stopAnimating()
             self.exampleControlView.isHidden = false
             self.mediaControlView.isHidden = false
+            
+            self.fastRoom.view.backgroundColor = .clear
+            self.fastRoom.view.whiteboardView.isOpaque = false
+            self.fastRoom.view.whiteboardView.evaluateJavaScript("window.setBackgroundColor=undefined")
+            self.fastRoom.view.whiteboardView.evaluateJavaScript("document.getElementById('whiteboard-container').style.backgroundColor='rgba(0,0,0,0)'")
         }
         self.fastRoom = fastRoom
     }
