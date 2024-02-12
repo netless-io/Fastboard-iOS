@@ -1,5 +1,7 @@
 # ChangeLog
 
+## [1.4.1] - 2024-02-12
+- 消除 cocoapods 'duplicate UUIDs' warnings 
 ## [1.4.0] - 2023-12-07
 - 更新 `Whiteboard` 依赖到 2.16.81，不再区分 `YYModel` 和 `YYKit`, 之前使用 `pod 'Fastboard/core-YYKit'` 的用户可以切换成 `pod 'Fastboard'` 
 ## [1.3.0] - 2023-07-08
