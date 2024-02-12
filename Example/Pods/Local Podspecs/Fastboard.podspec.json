@@ -1,6 +1,6 @@
 {
   "name": "Fastboard",
-  "version": "1.4.0",
+  "version": "1.4.1",
   "summary": "Quickly create a whiteboard interface for iOS",
   "description": "High-level SDK for Whiteboard-iOS with UI.\nWe recommend using Whiteboard-iOS directly if you need more customization,",
   "homepage": "https://github.com/netless-io/fastboard-iOS",
@@ -13,7 +13,7 @@
   },
   "source": {
     "git": "https://github.com/netless-io/fastboard-iOS.git",
-    "tag": "1.4.0"
+    "tag": "1.4.1"
   },
   "swift_versions": "5.0",
   "platforms": {
@@ -24,6 +24,7 @@
     {
       "name": "core",
       "source_files": "Fastboard/Classes/**/*",
+      "exclude_files": "Fastboard/Classes/include",
       "dependencies": {
         "Whiteboard": [
           "~> 2.16.81"
