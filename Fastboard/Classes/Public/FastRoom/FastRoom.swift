@@ -184,8 +184,9 @@ public class FastRoom: NSObject {
 }
 
 extension FastRoom: WhiteCommonCallbackDelegate {
-    public func throwError(_ error: Error) {
-    }
+    public func logger(_ dict: [AnyHashable : Any]) {}
+    
+    public func throwError(_ error: Error) {}
     
     public func sdkSetupFail(_ error: Error) {
         delegate?.fastboardDidOccurError(self, error: .init(type: .setupSDK, error: error))

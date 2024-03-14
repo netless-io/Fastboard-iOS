@@ -33,7 +33,7 @@
         if ([self.middleMan respondsToSelector: invocation.selector]) {
             [invocation invokeWithTarget:self.middleMan];
             return;
-        } else if ([self.middleMan respondsToSelector: invocation.selector]) {
+        } else if ([self.target respondsToSelector: invocation.selector]) {
             [invocation invokeWithTarget:self.target];
             return;
         }
