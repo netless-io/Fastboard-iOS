@@ -8,6 +8,11 @@
 #import "WhiteCommonCallbacks.h"
 #import "WhiteConsts.h"
 #import "WhiteObject.h"
+#if __has_include(<NTLBridge/DWKWebView.h>)
+#import <NTLBridge/DWKWebView.h>
+#else
+#import "DWKWebView.h"
+#endif
 
 @implementation WhiteCommonCallbacks
 
@@ -37,6 +42,15 @@
         [self.delegate throwError:error];
     }
     return @"";
+}
+
+- (void)slideUrlInterrupter:(NSString *)url completionHandler:(JSCallback)completionHandler
+{
+    if ([self.slideDelegate respondsToSelector:@selector(slideUrlInterrupter:completionHandler:)]) {
+        [self.slideDelegate slideUrlInterrupter:url completionHandler:^(NSString * _Nullable result) {
+            completionHandler(result, YES);
+        }];
+    }
 }
 
 - (NSString *)urlInterrupter:(NSString *)url
@@ -101,6 +115,9 @@
     }
     if (dict && [dict[@"type"] isEqualToString:@"@slide/_report_log_"]) {
         [[NSNotificationCenter defaultCenter] postNotificationName:@"Slide-Log" object:nil userInfo:dict];
+    }
+    if (dict && [dict[@"type"] isEqualToString:@"@slide/_report_volume_"]) {
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"Slide-Volume" object:nil userInfo:dict];
     }
     if (dict && [self.delegate respondsToSelector:@selector(customMessage:)]) {
         [self.delegate customMessage:dict];

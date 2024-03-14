@@ -12,7 +12,7 @@
 #import "WhiteDisplayer+Private.h"
 #import "WhiteObject.h"
 #import "WhiteDisplayerState+Private.h"
-#import "WhiteboardView+Private.h"
+#import "WhiteBoardView+Private.h"
 
 @interface WhiteRoom()<WKNavigationDelegate>
 @property (nonatomic, assign, readwrite) NSTimeInterval delay;
@@ -97,7 +97,7 @@
 }
 
 - (void)updateRoomState:(WhiteRoomState *)state {
-    [_state yy_modelSetWithJSON:[state yy_modelToJSONObject]];
+    [_state _white_yy_modelSetWithJSON:[state _white_yy_modelToJSONObject]];
 }
 
 #pragma mark - Apple Pencil
@@ -301,7 +301,6 @@
     NSDictionary *params = (index == -1) ? @{} : @{@"index": @(index)};
     [self.bridge callHandler:@"room.removePage" arguments:@[params] completionHandler:^(id  _Nullable value) {
         if (completionHandler) {
-            
             if ([value isKindOfClass:[NSNumber class]]) {
                 return completionHandler([(NSNumber *)value boolValue]);
             }
@@ -418,7 +417,7 @@
 {
     [self.bridge callHandler:@"room.getMemberState" completionHandler:^(id  _Nullable value) {
         if (result) {
-            WhiteMemberState *jsState = [WhiteMemberState modelWithJSON:value];
+            WhiteMemberState *jsState = [WhiteMemberState _white_yy_modelWithJSON:value];
             result(jsState);
         }
     }];
@@ -437,7 +436,7 @@
 {
     [self.bridge callHandler:@"room.getSceneState" completionHandler:^(id  _Nullable value) {
         if (result) {
-            WhiteSceneState *jsState = [WhiteSceneState modelWithJSON:value];
+            WhiteSceneState *jsState = [WhiteSceneState _white_yy_modelWithJSON:value];
             result(jsState);
         }
     }];
@@ -451,7 +450,7 @@
             NSArray *values = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
             NSMutableArray *array = [NSMutableArray arrayWithCapacity:[values count]];
             for (id v in values) {
-                [array addObject:[WhiteRoomMember modelWithJSON:v]];
+                [array addObject:[WhiteRoomMember _white_yy_modelWithJSON:v]];
             }
             result(array);
         }
@@ -483,7 +482,7 @@
 {
     [self.bridge callHandler:@"room.state.getRoomState" completionHandler:^(id  _Nullable value) {
         if (result) {
-            WhiteRoomState *state = [WhiteRoomState modelWithJSON:value];
+            WhiteRoomState *state = [WhiteRoomState _white_yy_modelWithJSON:value];
             result(state);
         }
     }];
@@ -497,7 +496,7 @@
             NSArray *values = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
             NSMutableArray<WhiteScene *> *array = [NSMutableArray arrayWithCapacity:[values count]];
             for (id v in values) {
-                [array addObject:[WhiteScene modelWithJSON:v]];
+                [array addObject:[WhiteScene _white_yy_modelWithJSON:v]];
             }
             result(array);
         }
@@ -508,7 +507,7 @@
 {
     [self.bridge callHandler:@"room.getBroadcastState" completionHandler:^(id  _Nullable value) {
         if (result) {
-            WhiteBroadcastState *jsState = [WhiteBroadcastState modelWithJSON:value];
+            WhiteBroadcastState *jsState = [WhiteBroadcastState _white_yy_modelWithJSON:value];
             result(jsState);
         }
     }];
@@ -640,6 +639,63 @@ static NSString * const RoomSyncNamespace = @"room.sync.%@";
     [self.bridge callHandler:@"room.closeApp" arguments:@[appId] completionHandler:^(id  _Nullable value) {
         if (completionHandler) {
             completionHandler();
+        }
+    }];
+}
+
+- (void)focusApp:(NSString *)appId {
+    [self.bridge callHandler:@"room.focusApp" arguments:@[appId]];
+}
+
+- (void)queryAllAppsWithCompletionHandler:(void (^)(NSDictionary<NSString *, WhiteAppSyncAttributes *> *apps, NSError * _Nullable error))completionHandler {
+    [self.bridge callHandler:@"room.queryAllApps" arguments:@[] completionHandler:^(id  _Nullable value) {
+        NSData *data = [value dataUsingEncoding:NSUTF8StringEncoding];
+        NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
+        NSDictionary *error = dict[@"__error"];
+        if (error) {
+            NSString *desc = error[@"message"] ? : @"";
+            NSString *description = error[@"jsStack"] ? : @"";
+            NSDictionary *userInfo = @{NSLocalizedDescriptionKey: desc, NSDebugDescriptionErrorKey: description};
+            completionHandler(nil, [NSError errorWithDomain:WhiteConstErrorDomain code:-1000 userInfo:userInfo]);
+            return;
+        }
+        NSMutableDictionary *results = [NSMutableDictionary dictionary];
+        
+        for (NSString *key in dict.allKeys) {
+            WhiteAppSyncAttributes *para = [WhiteAppSyncAttributes _white_yy_modelWithJSON:dict[key]];
+            results[key] = para;
+        }
+        completionHandler(results, nil);
+    }];
+}
+
+- (void)queryApp:(NSString *)appId completionHandler:(void (^)(WhiteAppSyncAttributes * _Nullable, NSError * _Nullable))completionHandler {
+    [self.bridge callHandler:@"room.queryApp" arguments:@[appId] completionHandler:^(id  _Nullable value) {
+        NSData *data = [value dataUsingEncoding:NSUTF8StringEncoding];
+        NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
+        NSDictionary *error = dict[@"__error"];
+        if (error) {
+            NSString *desc = error[@"message"] ? : @"";
+            NSString *description = error[@"jsStack"] ? : @"";
+            NSDictionary *userInfo = @{NSLocalizedDescriptionKey: desc, NSDebugDescriptionErrorKey: description};
+            completionHandler(nil, [NSError errorWithDomain:WhiteConstErrorDomain code:-1000 userInfo:userInfo]);
+            return;
+        }
+        WhiteAppSyncAttributes* result = [WhiteAppSyncAttributes _white_yy_modelWithJSON:value];
+        completionHandler(result, nil);
+    }];
+}
+
+- (void)dispatchDocsEvent:(WhiteWindowDocsEventKey)docsEvent options:(WhiteWindowDocsEventOptions *)options completionHandler:(void (^)(bool))completionHandler {
+    WhiteWindowDocsEventOptions *ops = options;
+    if (!ops) {
+        ops = [[WhiteWindowDocsEventOptions alloc] init];
+    }
+    [self.bridge callHandler:@"room.dispatchDocsEvent" arguments:@[docsEvent, ops] completionHandler:^(id  _Nullable value) {
+        if ([value isKindOfClass:[NSNumber class]]) {
+            return completionHandler([(NSNumber *)value boolValue]);
+        } else {
+            completionHandler(NO);
         }
     }];
 }

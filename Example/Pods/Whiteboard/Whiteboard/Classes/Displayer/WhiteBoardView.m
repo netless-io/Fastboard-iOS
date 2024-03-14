@@ -22,6 +22,20 @@
     }
 #endif
 
+@interface WebConsoleInteruptScriptHandler: NSObject<WKScriptMessageHandler>
+@property (nonatomic, copy) void (^handler)(WKScriptMessage *message);
+@end
+
+@implementation WebConsoleInteruptScriptHandler
+
+- (void)userContentController:(WKUserContentController *)userContentController didReceiveScriptMessage:(WKScriptMessage *)message {
+    if (self.handler) {
+        self.handler(message);
+    }
+}
+
+@end
+
 @interface WhiteBoardView ()
 
 @property (nonatomic, strong) BridgeCallRecorder* recorder;
@@ -149,6 +163,65 @@
     [self callHandler:@"sdk.newWhiteSdk" arguments:@[config] completionHandler:nil];
 }
 
+- (void)observeWKWebViewConsole {
+    NSString *logCaptureJsScript = @"\
+let oLog = console.log;\
+let oWarn = console.warn;\
+let oError = console.error;\
+let oDebug = console.debug;\
+function oneLevelObjectPrint(key, value) {\
+  if (key.length === 0) { return value; }\
+  if (typeof value === 'object') { return `[Object], ${key}`; }\
+  return value;\
+}\
+function log(type, args) {\
+      window.webkit.messageHandlers._netless_web_console_log_.postMessage(\
+      `${type}: ${Object.values(args)\
+      .map(v=> {\
+          if (typeof(v) === 'undefined') {\
+              return 'undefined';\
+          };\
+          if (typeof(v) === 'object') {\
+              if (v instanceof Error) {\
+                  return JSON.stringify(v, Object.getOwnPropertyNames(v));\
+              }\
+              return JSON.stringify(v, oneLevelObjectPrint);\
+          }\
+          return v.toString();\
+      })\
+      .map(v => v.substring(0, 3000))\
+      .join(', ')}`\
+  )\
+}\
+console.log = function() {\
+    log('LOG', arguments);oLog.apply(null, arguments);\
+};\
+console.warn = function() {\
+    log('WARN', arguments);oWarn.apply(null, arguments);\
+};\
+console.error = function() {\
+    log('ERROR', arguments);oError.apply(null, arguments);\
+};\
+console.debug = function() {\
+    log('DEBUG', arguments);oDebug.apply(null, arguments);\
+};\
+window.addEventListener('error', function(e) {\
+    log('UNCAUGHT', [`${e.message} at ${e.filename}:${e.lineno}:${e.colno}`]);\
+    window.e = e;\
+});\
+    ";
+    WKUserScript *script = [[WKUserScript alloc] initWithSource:logCaptureJsScript injectionTime:WKUserScriptInjectionTimeAtDocumentEnd forMainFrameOnly:NO];
+    [self.configuration.userContentController addUserScript:script];
+    WebConsoleInteruptScriptHandler *handler = [[WebConsoleInteruptScriptHandler alloc] init];
+    __weak typeof(self) weakSelf = self;
+    handler.handler = ^(WKScriptMessage *message) {
+        [weakSelf.commonCallbacks logger:@{
+            @"[WhiteWKConsole]": message.body
+        }];
+    };
+    [self.configuration.userContentController addScriptMessageHandler:handler name:@"_netless_web_console_log_"];
+}
+
 #pragma mark - Override
 -(void)callHandler:(NSString *)methodName arguments:(NSArray *)args completionHandler:(void (^)(id  _Nullable value))completionHandler
 {
@@ -171,7 +244,7 @@
         } else if ([item isKindOfClass:[WhiteObject class]]) {
             [arr addObject:[(WhiteObject *)item jsonDict]];
         } else {
-            [arr addObject:([item yy_modelToJSONObject] ? : @"")];
+            [arr addObject:([item _white_yy_modelToJSONObject] ? : @"")];
         }
     }
     dispatch_main_async_safe(^ {

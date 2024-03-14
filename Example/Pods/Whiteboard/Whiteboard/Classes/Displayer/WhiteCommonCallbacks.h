@@ -6,6 +6,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "WhiteSlideDelegate.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -76,7 +77,10 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)customMessage:(NSDictionary *)dict;
 
 /**
- * @param dict {funName: string, message: id} funName 为对应 API 的名称
+ * @param dict 
+ * 目前有两种日志:
+ * 1. SDK 的调用日志，{funName: string, params: id} funName 为对应 API 的名称
+ * 2. WebView 的 Console 日志， {[WhiteWKConsole]: string}，该日志只有在设置 `loggerOptions.printLevelMask` 为 `WhiteSDKLoggerOptionLevelDebug` 时才会打印
  */
 - (void)logger:(NSDictionary *)dict;
 
@@ -109,6 +113,9 @@ NS_ASSUME_NONNULL_BEGIN
  通用回调。详见 [WhiteCommonCallbackDelegate](WhiteCommonCallbackDelegate)。
  */
 @property (nonatomic, weak) id<WhiteCommonCallbackDelegate> delegate;
+@property (nonatomic, weak) id<WhiteSlideDelegate> slideDelegate;
+
+- (NSString *)logger:(NSDictionary *)log;
 
 @end
 

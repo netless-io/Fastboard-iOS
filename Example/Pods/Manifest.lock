@@ -1,35 +1,19 @@
 PODS:
-  - Fastboard (2.0.0-alpha.17):
-    - Fastboard/core (= 2.0.0-alpha.17)
-  - Fastboard/core (2.0.0-alpha.17):
-    - Whiteboard (~> 2.17.0-alpha.25)
+  - Fastboard (2.0.0-alpha.19):
+    - Fastboard/core (= 2.0.0-alpha.19)
+  - Fastboard/core (2.0.0-alpha.19):
+    - Whiteboard (~> 2.17.0-alpha.28)
   - Masonry (1.1.0)
-  - NTLBridge (3.1.5)
+  - NTLBridge (3.1.6)
   - SnapKit (5.6.0)
-  - Whiteboard (2.17.0-alpha.25):
-    - Whiteboard/Whiteboard-YYModel (= 2.17.0-alpha.25)
-  - Whiteboard/Base (2.17.0-alpha.25):
+  - White_YYModel (1.0.6)
+  - Whiteboard (2.17.0-alpha.29):
+    - Whiteboard/Whiteboard-Basic (= 2.17.0-alpha.29)
+  - Whiteboard/Resource (2.17.0-alpha.29)
+  - Whiteboard/Whiteboard-Basic (2.17.0-alpha.29):
     - NTLBridge (~> 3.1.4)
-    - Whiteboard/Object
-  - Whiteboard/Converter (2.17.0-alpha.25):
-    - Whiteboard/Object
-  - Whiteboard/Model (2.17.0-alpha.25):
-    - YYModel
-  - Whiteboard/NativeReplayer (2.17.0-alpha.25):
-    - Whiteboard/Replayer
-  - Whiteboard/Object (2.17.0-alpha.25):
-    - Whiteboard/Model
-  - Whiteboard/Replayer (2.17.0-alpha.25):
-    - Whiteboard/Base
-  - Whiteboard/Resource (2.17.0-alpha.25)
-  - Whiteboard/Room (2.17.0-alpha.25):
-    - Whiteboard/Base
-  - Whiteboard/Whiteboard-YYModel (2.17.0-alpha.25):
-    - Whiteboard/Converter
-    - Whiteboard/NativeReplayer
+    - White_YYModel
     - Whiteboard/Resource
-    - Whiteboard/Room
-  - YYModel (1.0.4)
 
 DEPENDENCIES:
   - Fastboard (from `../`)
@@ -42,21 +26,21 @@ SPEC REPOS:
     - Masonry
     - NTLBridge
     - SnapKit
+    - White_YYModel
     - Whiteboard
-    - YYModel
 
 EXTERNAL SOURCES:
   Fastboard:
     :path: "../"
 
 SPEC CHECKSUMS:
-  Fastboard: 07fc92da659d6a654876e90d21fff5259eace13e
+  Fastboard: 2ceeb91c71a46c7fad9754960b0b47fb9c7bc553
   Masonry: 678fab65091a9290e40e2832a55e7ab731aad201
-  NTLBridge: e94dc18242476b0238c10213a5438d9b9a59fcce
+  NTLBridge: 6ef7f3c1fc956f2e2d701a89828d51674bd479c7
   SnapKit: e01d52ebb8ddbc333eefe2132acf85c8227d9c25
-  Whiteboard: fcbe3d4788c390026164a3b3580d7aee5826673b
-  YYModel: 2a7fdd96aaa4b86a824e26d0c517de8928c04b30
+  White_YYModel: 4ed7b231471784ec709d4db954e1ca61a4fbe54d
+  Whiteboard: d2cf15dc3545cddc605ccbf54a0b8e05dccb5d92
 
 PODFILE CHECKSUM: 4144ca18cf85b1793c2afa24e1816d7ccd65d873
 
-COCOAPODS: 1.12.1
+COCOAPODS: 1.13.0

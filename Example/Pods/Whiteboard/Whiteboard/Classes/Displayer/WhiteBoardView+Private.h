@@ -21,4 +21,6 @@
 // 这个方法会重置callInfoList, 并且将指定记录过的 js call 重新回放一遍
 - (void)reloadFromCrash:(void (^__nullable)(void))completionHandler;
 
+- (void)observeWKWebViewConsole;
+
 @end

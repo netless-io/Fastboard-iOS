@@ -8,6 +8,7 @@
 #import "WhiteObject.h"
 #import <UIKit/UIKit.h>
 #import "WhiteConsts.h"
+#import "WhiteSlideAppParams.h"
 
 
 typedef NS_ENUM(NSInteger, WhiteDeviceType) {
@@ -24,7 +25,7 @@ FOUNDATION_EXPORT WhiteSdkRenderEngineKey const WhiteSdkRenderEngineCanvas;
 
 /** 日志类型 */
 typedef NSString * WhiteSDKLoggerOptionLevelKey NS_STRING_ENUM;
-/** Debug 为最详细的日志，目前内容与 Info 一致 */
+/** Debug 为最详细的日志，会将 WebView 上所有的 Console 信息都打印到 native 上 */
 FOUNDATION_EXPORT WhiteSDKLoggerOptionLevelKey const WhiteSDKLoggerOptionLevelDebug;
 /** info 主要为连接日志 */
 FOUNDATION_EXPORT WhiteSDKLoggerOptionLevelKey const WhiteSDKLoggerOptionLevelInfo;
@@ -109,16 +110,6 @@ FOUNDATION_EXPORT WhiteSDKLoggerReportModeKey const WhiteSDKLoggerReportBan;
 
 /** 
  待回放的互动白板房间所在的数据中心。
-
- 数据中心包括：
-
- - `"cn-hz"`：中国大陆
- - `"us-sv"`：美国
- - `"in-mum"`：印度
- - `"sg"`：新加坡
- - `"gb-lon"`：英国
- 
- @since 2.11.0 
  */
 @property (nonatomic, strong, nullable) WhiteRegionKey region;
 /**
@@ -185,9 +176,20 @@ FOUNDATION_EXPORT WhiteSDKLoggerReportModeKey const WhiteSDKLoggerReportBan;
 
 @property (nonatomic, assign) BOOL routeBackup __deprecated_msg("this api has no effect");
 
-/** 动态 ppt 参数。详见 [WhitePptParams](WhitePptParams)。 */
-@property (nonatomic, strong) WhitePptParams *pptParams;
+/** @deprecated 该属性已废弃。请使用 WhiteSlideAppParams */
+@property (nonatomic, strong) WhitePptParams *pptParams __deprecated_msg("use WhiteSlideAppParams instead");
 
+/** SlideApp 参数。详见 [WhiteSlideAppParams](WhiteSlideAppParams)  */
+@property (nonatomic, strong) WhiteSlideAppParams *whiteSlideAppParams;
+
+/**
+ 是否开启 Slide 资源 url 拦截替换功能。
+ 开启之后，需要同时设置 `WhiteSDK.setSlideDelegate` 在 `slideUrlInterrupter` 回调中对 url 进行处理。
+ 
+ - `YES`：开启。
+ - `NO`：（默认）关闭。
+ */
+@property (nonatomic, assign) BOOL enableSlideInterrupterAPI;
 
 @property (nonatomic, assign) BOOL disableDeviceInputs;
 
@@ -201,6 +203,13 @@ FOUNDATION_EXPORT WhiteSDKLoggerReportModeKey const WhiteSDKLoggerReportBan;
 
 /** 是否开启多窗口，默认为 NO，开启后，各种 API 会进行更改。*/
 @property (nonatomic, assign) BOOL useMultiViews;
+
+/**
+ * 配置白板的 API 服务器域名列表，可以用于服务器代理。配置后，白板不再使用 sdk 自带配置。
+ * @example
+ * [api.example.com]
+ */
+@property (nonatomic, copy, nullable) NSArray<NSString*> *apiHosts;
 
 @end
 
