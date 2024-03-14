@@ -1,6 +1,6 @@
 {
   "name": "Fastboard",
-  "version": "2.0.0-alpha.18",
+  "version": "2.0.0-alpha.19",
   "summary": "Quickly create a whiteboard interface for iOS",
   "description": "High-level SDK for Whiteboard-iOS with UI.\nWe recommend using Whiteboard-iOS directly if you need more customization,",
   "homepage": "https://github.com/netless-io/fastboard-iOS",
@@ -13,7 +13,7 @@
   },
   "source": {
     "git": "https://github.com/netless-io/fastboard-iOS.git",
-    "tag": "2.0.0-alpha.18"
+    "tag": "2.0.0-alpha.19"
   },
   "swift_versions": "5.0",
   "platforms": {
