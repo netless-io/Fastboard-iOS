@@ -1,5 +1,7 @@
 # ChangeLog
 
+## [1.4.2] - 2024-02-12
+- 修复仅使用 ApplePencil 涂鸦功能在某些高版本 iOS 中不生效的问题。
 ## [1.4.1] - 2024-02-12
 - 消除 cocoapods 'duplicate UUIDs' warnings 
 ## [1.4.0] - 2023-12-07
