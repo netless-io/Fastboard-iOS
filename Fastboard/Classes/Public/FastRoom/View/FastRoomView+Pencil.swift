@@ -16,7 +16,7 @@ extension FastRoomView {
                 $0.classForCoder.description() == "WKContentView"
             })?.gestureRecognizers?
             .first(where: {
-                $0.classForCoder.description() == "UIWebTouchEventsGestureRecognizer"
+                $0.classForCoder.description() == "UIWebTouchEventsGestureRecognizer" || $0.classForCoder.description() == "WKTouchEventsGestureRecognizer"
             }) {
             
             pencilHandler = FastboardPencilDrawHandler(room: whiteboardView.room, drawOnlyPencil: isPencilDrawOnly)
