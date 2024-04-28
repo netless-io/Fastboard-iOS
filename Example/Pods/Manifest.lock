@@ -1,7 +1,7 @@
 PODS:
-  - Fastboard (1.4.1):
-    - Fastboard/core (= 1.4.1)
-  - Fastboard/core (1.4.1):
+  - Fastboard (1.4.2):
+    - Fastboard/core (= 1.4.2)
+  - Fastboard/core (1.4.2):
     - Whiteboard (~> 2.16.81)
   - Masonry (1.1.0)
   - NTLBridge (3.1.6)
@@ -33,7 +33,7 @@ EXTERNAL SOURCES:
     :path: "../"
 
 SPEC CHECKSUMS:
-  Fastboard: 76a9608aa9647c91a0623ac7e57316950b394452
+  Fastboard: 0c3ef021540fe3934e078d573fc94a8ee0f0d963
   Masonry: 678fab65091a9290e40e2832a55e7ab731aad201
   NTLBridge: 6ef7f3c1fc956f2e2d701a89828d51674bd479c7
   SnapKit: e01d52ebb8ddbc333eefe2132acf85c8227d9c25
