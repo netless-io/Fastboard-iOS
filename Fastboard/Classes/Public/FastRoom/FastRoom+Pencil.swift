@@ -19,9 +19,11 @@ extension FastRoom {
     }
     
     @objc func onDidBecomeActiveNotification() {
-        if #available(iOS 14.0, *) {
-            if view.isPencilDrawOnly != UIPencilInteraction.prefersPencilOnlyDrawing {
-                view.isPencilDrawOnly = UIPencilInteraction.prefersPencilOnlyDrawing
+        if FastRoom.followSystemPencilBehavior {
+            if #available(iOS 14.0, *) {
+                if view.isPencilDrawOnly != UIPencilInteraction.prefersPencilOnlyDrawing {
+                    view.isPencilDrawOnly = UIPencilInteraction.prefersPencilOnlyDrawing
+                }
             }
         }
     }
