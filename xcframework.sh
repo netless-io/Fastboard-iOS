@@ -29,7 +29,7 @@ function createXC {
     rm -rf $BUILD_DIR/$SCHEME-iphonesimulator.xcarchive
 }
 
-createXC 'YYModel'
-createXC 'dsBridge'
+createXC 'NTLBridge'
+createXC 'White_YYModel'
 createXC 'Whiteboard'
 createXC 'Fastboard'
